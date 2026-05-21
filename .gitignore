@@ -1,3 +1,5 @@
 .vscode
 adoptionapp/__pycache__
+/apps/persons/__pycache__/*
+/apps/persons/migrations/*
 .env
