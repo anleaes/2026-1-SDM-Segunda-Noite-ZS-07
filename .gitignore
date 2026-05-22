@@ -5,3 +5,5 @@ adoptionapp/__pycache__
 .env
 /apps/employees/__pycache__/*
 /apps/employees/migrations/*
+/apps/adopters/__pycache__/*
+/apps/adopters/migrations/*
