@@ -20,7 +20,7 @@ class Adopter(Person):
     class Meta:
         verbose_name = 'Adotante'
         verbose_name_plural = 'Adotantes'
-        ordering =['id']
+        ordering =['register']
 
     def __str__(self):
         return super().__str__()
