@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'persons.apps.PersonsConfig',
+    'species.apps.SpeciesConfig',
     'employees.apps.EmployeesConfig',
     'adopters.apps.AdoptersConfig',
 ]
