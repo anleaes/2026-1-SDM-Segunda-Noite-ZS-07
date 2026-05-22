@@ -9,3 +9,5 @@ adoptionapp/__pycache__
 /apps/employees/migrations/*
 /apps/adopters/__pycache__/*
 /apps/adopters/migrations/*
+/apps/breeds/__pycache__/*
+/apps/breeds/migrations/*
