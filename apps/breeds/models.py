@@ -3,7 +3,7 @@ from species.models import Specie
 
 # Create your models here.
 
-class Product(models.Model):
+class Breed(models.Model):
     name = models.CharField('Nome da raça', max_length=100)
     category = models.ForeignKey(Specie, on_delete=models.CASCADE)
 
