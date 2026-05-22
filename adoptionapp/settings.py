@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'persons.apps.PersonsConfig',
     'employees.apps.EmployeesConfig',
+    'adopters.apps.AdoptersConfig',
 ]
 
 MIDDLEWARE = [
