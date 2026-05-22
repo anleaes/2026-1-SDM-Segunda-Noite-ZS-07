@@ -4,3 +4,6 @@ from rest_framework import viewsets
 from .serializer import AdopterSerializer
 
 # Create your views here.
+class AdopterViewSet(viewsets.ModelViewSet):
+    queryset = Adopter.objects.all()
+    serializer_class = AdopterSerializer 
