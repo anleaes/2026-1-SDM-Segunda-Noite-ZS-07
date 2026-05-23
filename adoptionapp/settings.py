@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'vaccines.apps.VaccinesConfig',
     'breeds.apps.BreedsConfig',
     'characteristics.apps.CharacteristicsConfig',
+    'animals.apps.AnimalsConfig',
 ]
 
 MIDDLEWARE = [
