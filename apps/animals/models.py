@@ -32,7 +32,7 @@ class Animal(models.Model):
     class Meta:
         verbose_name = 'Animal'
         verbose_name_plural = 'Animais'
-        ordering =['id']
+        ordering =['id_animal']
 
     def __str__(self):
         return f'{self.name}'
