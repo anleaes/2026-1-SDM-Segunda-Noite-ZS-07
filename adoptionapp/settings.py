@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'species.apps.SpeciesConfig',
     'employees.apps.EmployeesConfig',
     'adopters.apps.AdoptersConfig',
+    'vaccines.apps.VaccinesConfig',
     'breeds.apps.BreedsConfig',
 ]
 
