@@ -13,3 +13,5 @@ adoptionapp/__pycache__
 /apps/vaccines/migrations/*
 /apps/breeds/__pycache__/*
 /apps/breeds/migrations/*
+/apps/characteristics/__pycache__/*
+/apps/characteristics/migrations/*
