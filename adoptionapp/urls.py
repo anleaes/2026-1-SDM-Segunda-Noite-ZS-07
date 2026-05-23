@@ -24,4 +24,5 @@ urlpatterns = [
     path('funcionarios/', include('employees.urls', namespace='employees')),
     path('adotantes/', include('adopters.urls', namespace='adopters')),
     path('racas/', include('breeds.urls', namespace='breeds')),
+    path('vacinas/', include('vaccines.urls', namespace='vaccines')),
 ]
