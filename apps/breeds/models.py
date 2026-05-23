@@ -5,7 +5,7 @@ from species.models import Specie
 
 class Breed(models.Model):
     name = models.CharField('Nome da raça', max_length=100)
-    category = models.ForeignKey(Specie, on_delete=models.CASCADE)
+    specie = models.ForeignKey(Specie, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Raca'
