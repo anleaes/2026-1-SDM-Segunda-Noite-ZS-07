@@ -17,3 +17,5 @@ adoptionapp/__pycache__
 /apps/characteristics/migrations/*
 /apps/animals/__pycache__/*
 /apps/animals/migrations/*
+/apps/adoptions/__pycache__/*
+/apps/adoptions/migrations/*

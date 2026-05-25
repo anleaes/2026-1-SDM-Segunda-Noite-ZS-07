@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'breeds.apps.BreedsConfig',
     'characteristics.apps.CharacteristicsConfig',
     'animals.apps.AnimalsConfig',
+    'adoptions.apps.AdoptionsConfig',
 ]
 
 MIDDLEWARE = [
