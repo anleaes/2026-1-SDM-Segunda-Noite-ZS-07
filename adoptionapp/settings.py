@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'adoptions.apps.AdoptionsConfig',
     'adoptionterm.apps.AdoptiontermConfig',
     'vaccination.apps.VaccinationConfig',
+    'vaccineItens.apps.VaccineItensConfig',
 ]
 
 MIDDLEWARE = [
