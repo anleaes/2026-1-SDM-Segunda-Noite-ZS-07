@@ -8,4 +8,4 @@ from .serializer import VaccineItemSerializer
 
 class VaccineItemViewSet(viewsets.ModelViewSet):
     queryset = VaccineItem.objects.all()
-    
+    serializer_class = VaccineItemSerializer
