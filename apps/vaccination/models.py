@@ -1,5 +1,6 @@
 from django.db import models
-
+from animals.models import Animal
+from employees.models import Employee
 
 # Create your models here.
 class Vaccination(models.Model):
