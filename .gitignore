@@ -21,3 +21,10 @@ adoptionapp/__pycache__
 /apps/adoptions/migrations/*
 /apps/adoptionterm/__pycache__/*
 /apps/adoptionterm/migrations/*
+/apps/vaccination/__pycache__/*
+/apps/vaccination/migrations/*
+/venv/*
+/apps/vaccineItens/__pycache__/*
+/apps/vaccineItens/migrations/*
+
+
