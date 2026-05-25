@@ -28,4 +28,5 @@ urlpatterns = [
     path('caracteristicas/', include('characteristics.urls', namespace='characteristics')),
     path('animais/', include('animals.urls', namespace='animals')),
     path('adocoes/', include('adoptions.urls', namespace='adoptions')),
+    path('termos/', include('adoptionterm.urls', namespace='adoptionsterm')),
 ]
