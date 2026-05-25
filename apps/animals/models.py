@@ -17,12 +17,12 @@ class Animal(models.Model):
         ('G', 'Grande porte'),
     ])
     color = models.CharField('Cor', max_length=50)
-    sterilized = models.BooleanField('Castrado', null=False, choices=[
+    sterilized = models.BooleanField('Castrado', null=False, default=False, choices=[
         (True, 'Castrado'),
         (False, 'Não castrado'),
         ])
     listedAt = models.DateField('Data de Listagem')
-    adopted = models.BooleanField('Adotado', null=False, choices=[
+    adopted = models.BooleanField('Adotado', null=False, default=False, choices=[
         (True, 'Adotado'),
         (False, 'Para adoção'),
         ])
