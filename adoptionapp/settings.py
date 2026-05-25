@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'animals.apps.AnimalsConfig',
     'adoptions.apps.AdoptionsConfig',
     'adoptionterm.apps.AdoptiontermConfig',
+    'vaccination.apps.VaccinationConfig',
 ]
 
 MIDDLEWARE = [
