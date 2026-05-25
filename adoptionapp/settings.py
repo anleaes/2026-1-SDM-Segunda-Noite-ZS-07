@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'characteristics.apps.CharacteristicsConfig',
     'animals.apps.AnimalsConfig',
     'adoptions.apps.AdoptionsConfig',
+    'adoptionterm.apps.AdoptiontermConfig',
 ]
 
 MIDDLEWARE = [
