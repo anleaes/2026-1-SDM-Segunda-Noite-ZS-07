@@ -8,7 +8,7 @@ class VaccineItem(models.Model):
     expiration_date = models.DateField('Data de Validade')
     dosage = models.CharField('Dosagem', max_length=100)
     vaccination = models.ForeignKey(Vaccination, on_delete=models.CASCADE)
-   
+    vaccines = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Item de Vacina'
