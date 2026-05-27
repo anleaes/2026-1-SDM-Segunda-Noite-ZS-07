@@ -4,8 +4,8 @@ from adoptions.models import Adoption
 # Create your models here.
 
 class Adoptionterm(models.Model):
-    number = models.AutoField('Número', primary_key= True, null=False, editable=False, unique=True)
-    adopted_at = models.DateTimeField('Data da Adoção', auto_now_add=True, null=False, editable=False)
+    number = models.AutoField('Número', primary_key= True, blank=False, null=False, editable=False, unique=True)
+    adopted_at = models.DateTimeField('Data da Adoção', auto_now_add=True, blank=False, null=False, editable=False)
     document = models.FileField('Documento', upload_to='docs', null=False, blank=False)
     adoption = models.OneToOneField(Adoption, on_delete=models.CASCADE, related_name='adoption_term')
 

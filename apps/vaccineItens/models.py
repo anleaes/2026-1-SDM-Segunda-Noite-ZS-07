@@ -5,8 +5,8 @@ from vaccination.models import Vaccination
 
 # Create your models here.
 class VaccineItem(models.Model):
-    expiration_date = models.DateField('Data de Validade')
-    dosage = models.CharField('Dosagem', max_length=100)
+    expiration_date = models.DateField('Data de Validade', null=False, blank=False)
+    dosage = models.CharField('Dosagem', max_length=100, blank=False, null=False)
     vaccination = models.ForeignKey(Vaccination, on_delete=models.CASCADE)
     vaccines = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
 

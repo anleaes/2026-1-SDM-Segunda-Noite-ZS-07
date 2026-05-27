@@ -6,14 +6,14 @@ from animals.models import Animal
 # Create your models here.
 
 class Adoption(models.Model):
-    submitedAt = models.DateTimeField(auto_now_add=True)
+    submitedAt = models.DateTimeField(auto_now_add=True, editable=False, blank=False)
     status = models.CharField('Status da adoção', max_length=10, null=False, blank=False, default='Pendente',choices=[
         ('Pendente', 'Pendente'),
         ('Aprovada', 'Aprovada'),
         ('Rejeitada', 'Rejeitada'),
         ('Finalizada', 'Finalizada'),
     ])
-    lastAnswer = models.DateTimeField('Última resposta', null=True, blank=True, default=0.0)
+    lastAnswer = models.DateTimeField('Última resposta', null=False, blank=False)
     adopter = models.ForeignKey(Adopter, on_delete=models.CASCADE)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE)

@@ -4,14 +4,14 @@ from persons.models import Person
 
 
 class Employee(Person):
-    perfil = models.CharField('Perfil', max_length=15, default='User', null=False, choices=[
+    perfil = models.CharField('Perfil', max_length=15, default='User', null=False, blank=False, choices=[
         ('Admin', 'Administrador'),
         ('Mod', 'Moderador'),
         ('User', 'Usuário')
     ])
-    position = models.CharField('Cargo', max_length=50, null=False, blank=False)
-    birth_date = models.DateField('Data de nascimento', null=False)
-    hire_date = models.DateField('Data da contratação', null=False)
+    position = models.CharField('Cargo', max_length=200, null=False, blank=False)
+    birth_date = models.DateField('Data de nascimento', null=False, blank=True)
+    hire_date = models.DateField('Data da contratação', null=False, blank=False)
     is_active = models.BooleanField('Está Ativo?', default=True, null=False, choices=[
         (True, 'Ativo'),
         (False, 'Desativado')
