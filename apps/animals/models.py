@@ -4,24 +4,23 @@ from characteristics.models import Characteristic
 
 # Create your models here.
 class Animal(models.Model):
-    id_animal = models.AutoField('ID do Animal', primary_key= True, null=False, editable=False, unique=True)
-    name = models.CharField('Nome', null=False, max_length=100)
-    birth_date = models.DateField('Data de Nascimento')
-    sex = models.CharField('Sexo', max_length=10, null=False, choices=[
+    name = models.CharField('Nome', null=False, blank=False, max_length=150)
+    birth_date = models.DateField('Data de Nascimento', null=False, blank=True)
+    sex = models.CharField('Sexo', max_length=10, null=False, blank=False, choices=[
         ('M', 'Macho'),
         ('F', 'Femea'),
     ])
-    size = models.CharField('Tamanho', max_length=20, null=False, choices=[
+    size = models.CharField('Tamanho', max_length=20, null=False, blank=False, choices=[
         ('P', 'Pequeno porte'),
         ('M', 'Médio porte'),
         ('G', 'Grande porte'),
     ])
-    color = models.CharField('Cor', max_length=50)
-    sterilized = models.BooleanField('Castrado', null=False, default=False, choices=[
+    color = models.CharField('Cor', max_length=50, null=False, blank=False,)
+    sterilized = models.BooleanField('Castrado', null=False,  blank=False, default=False, choices=[
         (True, 'Castrado'),
         (False, 'Não castrado'),
         ])
-    listedAt = models.DateField('Data de Listagem')
+    listedAt = models.DateField('Data de Listagem', null=False, blank=False)
     adopted = models.BooleanField('Adotado', null=False, default=False, choices=[
         (True, 'Adotado'),
         (False, 'Para adoção'),

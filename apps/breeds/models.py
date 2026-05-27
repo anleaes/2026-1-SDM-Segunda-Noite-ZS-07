@@ -4,7 +4,7 @@ from species.models import Specie
 # Create your models here.
 
 class Breed(models.Model):
-    name = models.CharField('Nome da raça', max_length=100)
+    name = models.CharField('Nome da raça', max_length=100, null=False, blank=False)
     specie = models.ForeignKey(Specie, on_delete=models.CASCADE)
 
     class Meta:
