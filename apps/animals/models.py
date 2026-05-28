@@ -16,10 +16,7 @@ class Animal(models.Model):
         ('G', 'Grande porte'),
     ])
     color = models.CharField('Cor', max_length=50, null=False, blank=False,)
-    sterilized = models.BooleanField('Castrado', null=False,  blank=False, default=False, choices=[
-        (True, 'Castrado'),
-        (False, 'Não castrado'),
-        ])
+    sterilized = models.BooleanField('Castrado', null=False,  blank=False, default=False)
     listedAt = models.DateField('Data de Listagem', null=False, blank=False)
     adopted = models.BooleanField('Adotado', null=False, default=False, choices=[
         (True, 'Adotado'),
@@ -31,7 +28,7 @@ class Animal(models.Model):
     class Meta:
         verbose_name = 'Animal'
         verbose_name_plural = 'Animais'
-        ordering =['id_animal']
+        ordering =['id']
 
     def __str__(self):
         return f'{self.name}'
