@@ -26,5 +26,5 @@ adoptionapp/__pycache__
 /venv/*
 /apps/vaccineItens/__pycache__/*
 /apps/vaccineItens/migrations/*
-
-
+/apps/core/__pycache__/*
+/apps/core/migrations/*
