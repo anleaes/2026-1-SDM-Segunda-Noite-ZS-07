@@ -27,41 +27,31 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between">
-                <div class="destaque-animal">
-                    <div class="foto-animal">Foto</div>
-                    <div class="sobre-animal">
-                        <div>Descrição</div>
-                        <button class="btn">adotar</button>
+                {% for animal in animals %}
+                    <div class="destaque-animal">
+                        {% if animal.photo %}
+                            <img class="foto-animal" src="{{animal.photo.url}}">
+                        {% else %}
+                            <div class="foto-animal">Sem Foto</div>
+                        {% endif %}
+                        <div class="sobre-animal">
+                            <div>
+                                {{animal.breed}}
+                                <span>·</span>
+                                {% if animal.sex == "M" %}
+                                    Macho
+                                {% elif animal.sex == "F" %}
+                                    Fêmea
+                                {% endif %}
+                                {% for char in animal.characteristic.all|slice:":2" %}
+                                    <span>·</span>
+                                    {{char}}
+                                {% endfor %}
+                            </div>
+                            <button class="btn">adotar</button>
+                        </div>
                     </div>
-                </div>
-                <div class="destaque-animal">
-                    <div class="foto-animal">Foto</div>
-                    <div class="sobre-animal">
-                        <div>Descrição</div>
-                        <button class="btn">adotar</button>
-                    </div>
-                </div>
-                <div class="destaque-animal">
-                    <div class="foto-animal">Foto</div>
-                    <div class="sobre-animal">
-                        <div>Descrição</div>
-                        <button class="btn">adotar</button>
-                    </div>
-                </div>
-                <div class="destaque-animal">
-                    <div class="foto-animal">Foto</div>
-                    <div class="sobre-animal">
-                        <div>Descrição</div>
-                        <button class="btn">adotar</button>
-                    </div>
-                </div>
-                <div class="destaque-animal">
-                    <div class="foto-animal">Foto</div>
-                    <div class="sobre-animal">
-                        <div>Descrição</div>
-                        <button class="btn">adotar</button>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </main>
