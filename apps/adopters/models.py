@@ -3,16 +3,16 @@ from persons.models import Person
 
 # Create your models here.
 class Adopter(Person):
-    yard_security = models.BooleanField('Segurança do Jardim', null=False, choices=[
+    yard_security = models.BooleanField('Segurança do Jardim', default=False, null=False, choices=[
         (True, 'Seguro'),
         (False, 'Não seguro'),
     ])
     address = models.CharField('Endereco', max_length=200)
-    addressComprove = models.BooleanField('Comprovante de Endereço', null=False, choices=[
+    addressComprove = models.BooleanField('Comprovante de Endereço', default=False, null=False, choices=[
         (True, 'Comprovado'),
         (False, 'Não comprovado'),
     ])
-    checkedData = models.BooleanField('Dados Verificados', null=False, choices=[
+    checkedData = models.BooleanField('Dados Verificados', default=False, null=False, choices=[
         (True, 'Verificado'),
         (False, 'Não verificado'),
     ])
