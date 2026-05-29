@@ -1,0 +1,150 @@
+:root{
+    --coral: #D85A30;
+    --claro: #F0997B;
+    --escuro: #993C1D;
+    --fundo: #F1EFE8;
+    --texto: #444441;
+    --sucesso: #1D9E75;
+    --alerta: #BA7517;
+    --info: #378ADD;
+    --destaque: #D4537E;
+}
+
+body{
+    background: var(--fundo);
+}
+
+/* Inicio Cabeçalho */
+
+    header{
+        background: var(--coral);
+    }
+
+    a{
+        color: var(--texto);
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+
+    .bi-heart-fill{
+        color: rgb(200, 0, 0);
+    }
+
+    .nav-item>a{
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+/* Fim Cabeçalho */
+
+/* Inicio Home */
+
+    .secao-topo{
+        background: var(--claro);
+    }
+
+    .secao-topo>.container,
+    main>.container{
+        padding: 0 70px;
+    }
+
+    .secao-topo>.container>h1{
+        font-size: 1.8rem;
+    }
+
+    .secao-topo>.container>p{
+        font-weight: 600;
+        color: var(--texto);
+    }
+
+    .botao-filtro{
+        background: var(--coral);
+        font-weight: 500;
+        border-radius: 30px;
+        border: none;
+    }
+
+    .botao-filtro:hover{
+        background: var(--escuro);
+    }
+
+    .botao-filtro:active{
+        background: var(--coral) !important;
+    }
+
+    .texto-destaque{
+        font-size: 1.2rem;
+    }
+
+    .bi-arrow-right-short{
+        font-size: 1.4rem;
+    }
+
+    .botao-ver-todos{
+        border: none;
+        transition: 0.4s;
+    }
+
+    .botao-ver-todos:hover{
+        color: black;
+    }
+
+    .destaque-animal{
+        background: white;
+        width: 100%;
+        margin: 0 10px;
+        text-align: center;
+        padding: 0;
+        border-radius: 10px;
+        height: 250px;
+        border: 1px solid rgb(180, 180, 180);
+    }
+
+    .foto-animal{
+        width: 100%;
+        background:rgb(200, 200, 200);
+        height: 50%;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        box-shadow: inset 0px -5px 10px 0px rgb(170, 170, 170);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sobre-animal{
+        height: 50%;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+    }
+
+    .sobre-animal>button{
+        background: var(--coral);
+        border: none;
+        margin: 10px 20px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--texto);
+    }
+    
+    .sobre-animal>button:hover{
+        background: var(--escuro);
+    }
+
+    .sobre-animal>button:active{
+        background: var(--coral) !important;
+    }
+
+/* Fim Home */
+
+/* Inicio Rodapé */
+
+    footer{
+        background: rgb(20, 20, 20);
+    }
+
+/* Fim Rodapé */
