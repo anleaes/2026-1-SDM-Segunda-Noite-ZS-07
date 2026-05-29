@@ -8,16 +8,24 @@
     --alerta: #BA7517;
     --info: #378ADD;
     --destaque: #D4537E;
+    --bege-claro: #F5ECE0;
 }
 
 body{
     background: var(--fundo);
 }
 
-/* Inicio Cabeçalho */
+.btn, button, input[type="button"], input[type="submit"], a.btn{
+    color: var(--bege-claro) !important;
+}
 
     header{
         background: var(--coral);
+    }
+
+    /* Brand title color (Adotar&Amar) */
+    header a.logoTitle{
+        color: var(--bege-claro) !important;
     }
 
     a{
