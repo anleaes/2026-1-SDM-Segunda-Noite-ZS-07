@@ -16,7 +16,7 @@ body{
 }
 
 .btn, button, input[type="button"], input[type="submit"], a.btn{
-    color: var(--bege-claro) !important;
+    color: var(--bege-claro);
 }
 
     header{
@@ -68,6 +68,7 @@ body{
         background: var(--coral);
         font-weight: 500;
         border-radius: 30px;
+        color: white;
         border: none;
     }
 
@@ -232,6 +233,14 @@ body{
     .total-animals {
         color: var(--escuro) !important;
         font-size: 0.9rem;
+    }
+
+    .btn-ver-mais{
+        font-size: 0.9rem;
+        background: transparent;
+        border: none;
+        color: var(--escuro);
+        font-weight: 500;
     }
 
 /* Fim animais */
