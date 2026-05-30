@@ -31,7 +31,7 @@
     <tbody>
     {% for employee in employees %}
         <tr>
-            <td>{{ employee.id }}</td>
+            <td>{{ employee.register }}</td>
             <td>{{ employee.first_name }}</td>
             <td>{{ employee.last_name }}</td>
             <td>{{ employee.cpf }}</td>
@@ -40,10 +40,10 @@
             <td>{{ employee.birth_date }}</td>
             <td>{{ employee.hire_date }}</td>
             <td>
-                <a href="{% url 'employees:edit_employee' employee.id %}">Editar</a>
+                <a href="{% url 'employees:edit_employee' employee.register %}">Editar</a>
             </td>
             <td>
-                <a href="{% url 'employees:delete_employee' employee.id %}">Excluir</a>
+                <a href="{% url 'employees:delete_employee' employee.register %}">Excluir</a>
             </td>
         </tr> 
     {% endfor %}
