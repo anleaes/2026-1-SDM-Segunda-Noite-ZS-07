@@ -22,7 +22,7 @@ class Animal(models.Model):
         (True, 'Adotado'),
         (False, 'Para adoção'),
         ])
-    photo = models.ImageField('Foto', upload_to='photos')
+    photo = models.ImageField('Foto', upload_to='photos', null=True, blank=True)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     characteristic = models.ManyToManyField(Characteristic, verbose_name='Caracteristicas')
     
