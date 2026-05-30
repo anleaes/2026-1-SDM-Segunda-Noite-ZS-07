@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+    Lista de Adotantes - {{ block.super }}
+
+{% endblock title %}
+
+{% block body %}
+
+<br />
+    <a href="{% url 'adopters:add_adopter' %}">Cadastro de novo adotante</a>
+<br />
+<br />
+<b>Lista de Adotantes</b></h5>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>CPF</th>
+        <th>Segurança do Jardim</th>
+        <th>Endereco</th>
+        <th>Comprovante de Endereço</th>
+        <th>Dados Verificados</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for adopter in adopters %}
+        <tr>
+            <td>{{ adopter.register }}</td>
+            <td>{{ adopter.first_name }}</td>
+            <td>{{ adopter.last_name }}</td>
+            <td>{{ adopter.cpf }}</td>
+            <td>{{ adopter.yard_security }}</td>
+            <td>{{ adopter.address }}</td>
+            <td>{{ adopter.addressComprove }}</td>
+            <td>{{ adopter.checkedData }}</td>
+            <td>
+                <a href="{% url 'adopters:edit_adopter' adopter.register %}">Editar</a>
+            </td>
+            <td>
+                <a href="{% url 'adopters:delete_adopter' adopter.register %}">Excluir</a>
+            </td>
+        </tr> 
+    {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock body %}
