@@ -35,13 +35,8 @@ def user_login(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
-            if user.is_staff:
-                login(request, user)
-                return redirect(request.GET.get('next', '/'))
-            else:
-                messages.error(
-                    request, 'Acesso negado: usuário não tem permissão de admin.')
-                return redirect('accounts:user_login')
+            login(request, user)
+            return redirect(request.GET.get('next', '/'))
         else:
             messages.error(request, 'Credenciais inválidas.')
             return redirect('accounts:user_login')
