@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ block.super }}
+{% endblock title %}
+
+{% block body %}
+    <div class="margem-principal container mt-4">
+        <form class="d-flex w-50 gap-3 mb-4">
+            <div class="search-container d-flex align-items-center bg-white border rounded-pill px-3 py-2 shadow-sm">
+                <input type="text" class="form-control bg-transparent border-0 p-0 shadow-none text-muted" placeholder="Buscar por raça, nome, cidade...">
+            </div>
+            <button class="btn botao-filtro">Buscar</button>
+        </form>
+        <div class="row">
+            <form class="col-md-4 h-100 formulario-animais">
+                <div class="mx-3 mt-2 text-center">
+                    <p class="texto-filtros mb-0">Filtros</p>
+                </div>
+                <hr class="my-1 p-0">
+                <div class="mx-3">
+                    <p class="texto-filtros">Espécies</p>
+                    {% for specie in species %}
+                        <div class="form-check mb-2 {% if forloop.counter > 5 %}d-none extra-specie{% endif %}">
+                            <input class="form-check-input custom-checkbox" type="checkbox" name="especie[]" value="{{specie.id}}" id="esp-{{ forloop.counter }}">
+                            <label class="form-check-label" for="esp-{{ forloop.counter }}">{{specie.name}}</label>
+                        </div>
+                    {% endfor %}
+                    <button id="ver-mais-esp" type="button" class="btn btn-ver-mais">
+                        Ver mais
+                    </button>
+                </div>
+                <hr class="my-1 p-0">
+                <div class="mx-3">
+                    <h6 class="texto-filtros">Porte</h6>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input custom-checkbox" type="checkbox" name="porte[]" value="pequeno" id="porte-pequeno">
+                        <label class="form-check-label" for="porte-pequeno">Pequeno</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input custom-checkbox" type="checkbox" name="porte[]" value="medio" id="porte-medio">
+                        <label class="form-check-label" for="porte-medio">Médio</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input custom-checkbox" type="checkbox" name="porte[]" value="grande" id="porte-grande">
+                        <label class="form-check-label" for="porte-grande">Grande</label>
+                    </div>
+                </div>
+                <hr class="my-1 p-0">
+                <div class="mx-3">
+                    <h6 class="texto-filtros">Sexo</h6>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input custom-checkbox" type="checkbox" name="sexo[]" value="macho" id="sexo-macho">
+                        <label class="form-check-label" for="sexo-macho">Macho</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input custom-checkbox" type="checkbox" name="sexo[]" value="femea" id="sexo-femea">
+                        <label class="form-check-label" for="sexo-femea">Fêmea</label>
+                    </div>
+                </div>
+                <hr class="my-1 p-0">
+                <div class="mx-3">
+                    <h6 class="texto-filtros">Características</h6>
+                    {% for characteristic in characteristics %}
+                        <div class="form-check mb-2 {% if forloop.counter > 3 %}d-none extra-char{% endif %}">
+                            <input class="form-check-input custom-checkbox" type="checkbox" name="caracteristicas[]" value="{{characteristic.id}}" id="char-{{forloop.counter}}">
+                            <label class="form-check-label" for="char-{{forloop.counter}}">{{characteristic.name}}</label>
+                        </div>
+                    {% endfor %}
+                    <button id="ver-mais-char" type="button" class="btn btn-ver-mais">
+                        Ver mais
+                    </button>
+                </div>
+                <button type="submit" class="botao-filtro btn w-100 rounded-pill fw-bold text-white mt-4 py-2 shadow-sm mb-3">
+                    Aplicar filtros
+                </button>
+            </form>
+            <div class="col-md-8 d-flex flex-column">
+                <div class="text-muted mb-3 fs-6 font-monospace">
+                    Mostrando <span class="fw-bold span-animais">48 animais</span>
+                </div>
+                <div class="row g-4 mb-4">
+                    {% for animal in animals %}
+                        <div class="col-sm-6 col-md-4">
+                            <div class="destaque-animal">
+                                {% if animal.photo %}
+                                    <img class="foto-animal" src="{{animal.photo.url}}">
+                                {% else %}
+                                    <div class="foto-animal">Sem Foto</div>
+                                {% endif %}
+                                <div class="sobre-animal">
+                                    <div>
+                                        {{animal.breed}}
+                                        <span>·</span>
+                                        {% if animal.sex == "M" %}
+                                            Macho
+                                        {% elif animal.sex == "F" %}
+                                            Fêmea
+                                        {% endif %}
+                                        {% for char in animal.characteristic.all|slice:":2" %}
+                                            <span>·</span>
+                                            {{char}}
+                                        {% endfor %}
+                                    </div>
+                                    <button class="btn text-light">adotar</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination-pill d-flex justify-content-between align-items-center bg-white border rounded-pill px-4 py-2 shadow-sm mt-auto">
+                    <a href="#" class="page-nav-link text-muted text-decoration-none">
+                        <i class="bi bi-arrow-left me-1"></i> Anterior
+                    </a>
+                    <div class="page-numbers d-flex align-items-center gap-3">
+                        <span class="page-num active shadow-sm">1</span>
+                        <a href="#" class="page-num text-muted text-decoration-none">2</a>
+                        <a href="#" class="page-num text-muted text-decoration-none">3</a>
+                        <span class="page-num text-muted">...</span>
+                        <a href="#" class="page-num text-muted text-decoration-none">12</a>
+                    </div>
+                    <a href="#" class="page-nav-link text-muted text-decoration-none">
+                        Próxima <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

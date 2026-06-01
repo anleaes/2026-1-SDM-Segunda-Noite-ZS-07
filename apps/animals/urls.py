@@ -8,5 +8,6 @@ router = routers.SimpleRouter()
 router.register('', views.AnimalViewSet, basename='animais')
 
 urlpatterns = [
-    path('', include(router.urls) )
+    path('listar/', views.list_animals, name='list_animals'),
+    path('', include(router.urls) ),
 ]
