@@ -15,12 +15,10 @@ from pathlib import Path
 from decouple import config
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-APPS_DIR = os.path.join(BASE_DIR, 'apps') 
+APPS_DIR = os.path.join(BASE_DIR, 'apps')
 sys.path.insert(0, APPS_DIR)
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'persons.apps.PersonsConfig',
     'species.apps.SpeciesConfig',
@@ -149,13 +148,18 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = [ 
-    os.path.join(BASE_DIR, 'staticfiles'), 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles'),
 ]
 
-MEDIA_URL = '/media/' 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8081',
+    'http://localhost:19006',
+    'http://localhost:5173',
+]
