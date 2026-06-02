@@ -16,7 +16,7 @@ body{
 }
 
 .btn, button, input[type="button"], input[type="submit"], a.btn{
-    color: var(--bege-claro) !important;
+    color: var(--bege-claro);
 }
 
     header{
@@ -51,8 +51,7 @@ body{
         background: var(--claro);
     }
 
-    .secao-topo>.container,
-    main>.container{
+    .margem-principal{
         padding: 0 70px;
     }
 
@@ -69,6 +68,7 @@ body{
         background: var(--coral);
         font-weight: 500;
         border-radius: 30px;
+        color: white;
         border: none;
     }
 
@@ -148,6 +148,102 @@ body{
     }
 
 /* Fim Home */
+
+/* Inicio Animais*/
+
+    .search-container {
+        border-color: #e0e0e0 !important;
+        transition: all 0.2s ease;
+        width: 100%;
+    }
+
+    .search-container input {
+        font-size: 1.05rem;
+    }
+
+    .search-container input::placeholder {
+        color: #b0b0b0;
+        font-weight: 500;
+    }
+
+    .search-container:focus-within {
+        border-color: #b4b4ff !important;
+        box-shadow: 0 0 0 0.2rem rgba(180, 180, 255, 0.25) !important;
+    }
+
+    .formulario-animais{
+        background: white;
+        border-radius: 10px;
+        border: 1px solid rgb(200,200,200);
+        
+    }
+
+    .texto-filtros{
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    hr{
+        color: var(--claro);
+    }
+
+    .custom-checkbox:checked {
+        background-color: var(--coral) !important;
+        border-color: var(--coral) !important;
+    }
+
+    .custom-checkbox:focus {
+        box-shadow: 0 0 0 0.25rem rgba(217, 94, 50, 0.2) !important;
+        border-color: var(--coral) !important;
+    }
+
+    .span-animais{
+        color: var(--coral);
+    }
+
+    .pagination-pill {
+        border-color: var(--bege-claro) !important;
+    }
+
+    .page-nav-link {
+        font-size: 0.95rem;
+        font-weight: bold;
+        transition: color 0.2s ease;
+    }
+
+    .page-nav-link:hover {
+        color: var(--coral) !important;
+    }
+
+    /* Números individuais */
+    .page-num {
+        font-size: 0.95rem;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 2px 8px;
+    }
+
+    /* Número Ativo (Quadrado Laranja Redondinho) */
+    .page-num.active {
+        background-color: var(--coral);
+        color: white !important;
+        border-radius: 6px;
+    }
+
+    .total-animals {
+        color: var(--escuro) !important;
+        font-size: 0.9rem;
+    }
+
+    .btn-ver-mais{
+        font-size: 0.9rem;
+        background: transparent;
+        border: none;
+        color: var(--escuro);
+        font-weight: 500;
+    }
+
+/* Fim animais */
 
 /* Inicio Rodapé */
 
