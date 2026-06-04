@@ -65,7 +65,13 @@ def user_login(request):
         if user is not None:
             login(request, user)
             token, _ = Token.objects.get_or_create(user=user)
-            return JsonResponse({'token': token.key, 'username': user.username})
+            if user.is_superuser:
+                role = 'admin'
+            elif user.is_staff:
+                role = 'moderador'
+            else:
+                role = 'user'
+            return JsonResponse({'token': token.key, 'username': user.username, 'role': role})
         return JsonResponse({'error': 'Usuário ou senha inválidos'}, status=401)
 
     # Fluxo normal para o template HTML
