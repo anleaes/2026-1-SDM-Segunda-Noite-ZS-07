@@ -9,6 +9,11 @@ from .serializer import AnimalSerializer
 class AnimalViewSet(viewsets.ModelViewSet):
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
+    queryset = Animal.objects.select_related(
+        'breed', 'breed__specie' 
+    ).prefetch_related(
+        'characteristic'
+    ).all()
 
 def list_animals(request):
     template_name = 'animals/list_animals.html'
