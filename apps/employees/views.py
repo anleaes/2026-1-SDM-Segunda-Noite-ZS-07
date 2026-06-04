@@ -71,6 +71,25 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         return Response({"status": "Cargo e nível atualizados com sucesso!"})
    
    @action(detail=True, methods=['patch'])
+   def alterar_username(self, request, pk=None):
+        employee = self.get_object()
+        user = employee.user
+        
+        if not user:
+            return Response({"error": "Este adotante não possui um usuário de login vinculado."}, status=status.HTTP_400_BAD_REQUEST)
+            
+        novo_username = request.data.get('username')
+        if not novo_username:
+            return Response({"error": "O novo nome de usuário não foi informado."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if User.objects.filter(username=novo_username).exclude(id=user.id).exists():
+            return Response({"error": "Este nome de usuário já está em uso por outra pessoa."}, status=status.HTTP_400_BAD_REQUEST)
+            
+        user.username = novo_username
+        user.save()
+        return Response({"status": "Nome de usuário atualizado com sucesso!"})
+
+   @action(detail=True, methods=['patch'])
    def alterar_senha(self, request, pk=None):
         if not request.user.is_superuser:
             return Response(
