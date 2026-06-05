@@ -11,14 +11,14 @@
 
 {% block body %}
     <div class="margem-principal container mt-4">
-        <form class="d-flex w-75 gap-3 mb-4">
+        <form class="d-flex w-100 gap-3 mb-4">
             <div class="search-container d-flex align-items-center bg-white border rounded-pill px-3 py-2 shadow-sm">
                 <input type="text" class="form-control bg-transparent border-0 p-0 shadow-none text-muted" placeholder="Buscar por raça, nome, cidade...">
             </div>
             <button class="btn botao-filtro">Buscar</button>
         </form>
         <div class="row">
-            <form class="col-sm-4 h-100 formulario-animais">
+            <form class="col-10 col-sm-4 h-100 formulario-animais mx-auto">
                 <div class="mx-3 mt-2 text-center">
                     <p class="texto-filtros mb-0">Filtros</p>
                 </div>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="row g-4 mb-4">
                     {% for animal in animals %}
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-6 col-md-4">
                             <div class="destaque-animal">
                                 {% if animal.photo %}
                                     <img class="foto-animal" src="{{animal.photo.url}}">
