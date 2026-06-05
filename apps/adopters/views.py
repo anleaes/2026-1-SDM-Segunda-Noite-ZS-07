@@ -1,19 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from django.contrib.auth.models import User
 from .models import Adopter
+from .forms import AdopterForm
 from .serializer import AdopterSerializer
 
 # Create your views here.
 class AdopterViewSet(viewsets.ModelViewSet):
     queryset = Adopter.objects.all()
     serializer_class = AdopterSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def create(self, request, *args, **kwargs):
@@ -91,3 +93,73 @@ class AdopterViewSet(viewsets.ModelViewSet):
         user.set_password(nova_senha)
         user.save()
         return Response({"status": "Senha do cliente atualizada com sucesso!"})
+    
+    @action(detail=True, methods=['patch'])
+    def alterar_endereco(self, request, pk=None):
+        adopter = self.get_object()
+        
+        novo_endereco = request.data.get('address')
+        if not novo_endereco:
+            return Response({"error": "O novo endereço não foi informado."}, status=status.HTTP_400_BAD_REQUEST)
+            
+        adopter.address = novo_endereco
+        adopter.save()
+        
+        return Response({"status": "Endereço do cliente atualizado com sucesso!"})
+    
+def is_admin_or_mod(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_admin_or_mod)
+def add_adopter(request):
+    template_name = 'core:management_panel'
+    if request.method == 'POST':
+        form = AdopterForm(request.POST)
+        if form.is_valid():
+            
+            if User.objects.filter(username=form.cleaned_data.get('username')).exists():
+                return Response(
+                    {"error": "Este nome de utilizador já está em uso."}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=form.cleaned_data.get('username'),
+                    email=form.cleaned_data.get('email'),
+                    password=form.cleaned_data.get('password'),
+                    first_name=form.cleaned_data.get('first_name'),
+                    last_name=form.cleaned_data.get('last_name')
+                )
+                
+                adopter = Adopter.objects.create(
+                    user=user,
+                    first_name=form.cleaned_data.get('first_name'),
+                    last_name=form.cleaned_data.get('last_name'),
+                    cpf=form.cleaned_data.get('cpf'),
+                    address=form.cleaned_data.get('address'),
+                    yard_security=form.cleaned_data.get('yard_security', False),
+                    addressComprove=form.cleaned_data.get('addressComprove', False),
+                    checkedData=form.cleaned_data.get('checkedData', False),
+                )
+             
+    return redirect(template_name)
+
+def edit_adopter(request, register_adopter):
+    template_name = 'core:management_panel'
+    adopter = get_object_or_404(Adopter, register=register_adopter)
+    if request.method == 'POST':
+
+        if 'quick_status_update' in request.POST:
+            adopter.yard_security = request.POST.get('yard_security') == 'on'
+            adopter.addressComprove = request.POST.get('address_verify') == 'on'
+            adopter.checkedData = request.POST.get('checked_data') == 'on'
+            adopter.save()
+            return redirect('core:management_panel')
+        
+        form = AdopterForm(request.POST, instance=adopter)
+        if form.is_valid():
+            form.save()
+            return redirect('core:management_panel')
+        
+    return redirect(template_name)

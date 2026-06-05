@@ -5,7 +5,8 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .serializer import EmployeeSerializer
 from django.db import transaction
 from django.contrib.auth.models import User
@@ -14,7 +15,7 @@ from django.contrib.auth.models import User
 class EmployeeViewSet(viewsets.ModelViewSet):
    queryset = Employee.objects.all()
    serializer_class = EmployeeSerializer
-   authentication_classes = [TokenAuthentication]
+   authentication_classes = [TokenAuthentication, SessionAuthentication]
    permission_classes = [IsAuthenticated, IsAdminUser]
 
    def create(self, request, *args, **kwargs):
@@ -109,19 +110,44 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
         return Response({"status": "Senha atualizada com sucesso!"})
 
+def is_admin_or_mod(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_admin_or_mod)
 def add_employee(request):
-    template_name = 'employees/add_employee.html'
-    context = {}
+    template_name = 'core:management_panel'
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
-            f = form.save(commit=False)
-            f.save()
-            form.save_m2m()
-            return redirect('employees:list_employees')
-    form = EmployeeForm()
-    context['form'] = form
-    return render(request, template_name, context)
+
+            if User.objects.filter(username=form.cleaned_data.get('username')).exists():
+                return Response(
+                    {"error": "Este nome de utilizador já está em uso."}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=form.cleaned_data.get('username'),
+                    email=form.cleaned_data.get('email'),
+                    password=form.cleaned_data.get('password'),
+                    first_name=form.cleaned_data.get('first_name'),
+                    last_name=form.cleaned_data.get('last_name')
+                )
+                
+                employee = Employee.objects.create(
+                    user=user,
+                    first_name=form.cleaned_data.get('first_name'),
+                    last_name=form.cleaned_data.get('last_name'),
+                    cpf=form.cleaned_data.get('cpf'),
+                    position=form.cleaned_data.get('position'),
+                    birth_date=form.cleaned_data.get('birth_date'),
+                    hire_date=form.cleaned_data.get('hire_date'),
+                    is_active=True
+                )
+
+             
+    return redirect(template_name)
 
 def list_employees(request):
     template_name = 'employees/list_employees.html'
@@ -132,14 +158,20 @@ def list_employees(request):
     return render(request, template_name, context)
 
 def edit_employee(request, register_employee):
-    template_name = 'employees/add_employee.html'
+    template_name = 'core:management_panel'
     context ={}
     employee = get_object_or_404(Employee, register=register_employee)
     if request.method == 'POST':
+
+        if 'quick_status_update' in request.POST:
+            employee.is_active = request.POST.get('is_active') == 'on'
+            employee.save()
+            return redirect('core:management_panel')
+        
         form = EmployeeForm(request.POST, instance=employee)
         if form.is_valid():
             form.save()
-            return redirect('employees:list_employees')
+            return redirect('core:management_panel')
     form = EmployeeForm(instance=employee)
     context['form'] = form
     return render(request, template_name, context)
