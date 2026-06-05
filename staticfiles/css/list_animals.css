@@ -1,0 +1,94 @@
+.destaque-animal {
+    margin: 0;
+    height: 100%;
+}
+
+.search-container {
+    border-color: #e0e0e0;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.search-container input {
+    font-size: 1.05rem;
+}
+
+.search-container input::placeholder {
+    color: #b0b0b0;
+    font-weight: 500;
+}
+
+.search-container:focus-within {
+    border-color: #b4b4ff;
+    box-shadow: 0 0 0 0.2rem rgba(180, 180, 255, 0.25);
+}
+
+.formulario-animais{
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgb(200,200,200);
+    
+}
+
+.texto-filtros{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+hr{
+    color: var(--secondary);
+}
+
+.custom-checkbox:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.custom-checkbox:focus {
+    box-shadow: 0 0 0 0.25rem rgba(217, 94, 50, 0.2);
+    border-color: var(--primary);
+}
+
+.span-animais{
+    color: var(--primary);
+}
+
+.pagination-pill {
+    border-color: var(--bege-secondary);
+}
+
+.page-nav-link {
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.page-nav-link:hover {
+    color: var(--primary);
+}
+
+.page-num {
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 2px 8px;
+}
+
+.page-num.active {
+    background-color: var(--primary);
+    color: white;
+    border-radius: 6px;
+}
+
+.total-animals {
+    color: var(--primary-escuro);
+    font-size: 0.9rem;
+}
+
+.btn-ver-mais{
+    font-size: 0.9rem;
+    background: transparent;
+    border: none;
+    color: var(--primary-escuro);
+    font-weight: 500;
+}

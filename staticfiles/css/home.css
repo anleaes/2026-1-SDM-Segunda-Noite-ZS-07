@@ -1,0 +1,36 @@
+.secao-topo{
+    background: var(--secondary);
+}
+
+.secao-topo>.container>h1{
+    font-size: 1.8rem;
+}
+
+.secao-topo>.container>p{
+    font-weight: 600;
+    color: var(--text);
+}
+
+.texto-destaque{
+    font-size: 1.2rem;
+}
+
+.bi-arrow-right-short{
+    font-size: 1.4rem;
+}
+
+.botao-ver-todos:hover{
+    color: black;
+}
+
+.destaque-animal {
+    margin: 0 10px;
+}
+
+.scroll-invisivel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scroll-invisivel::-webkit-scrollbar {
+    display: none;
+}

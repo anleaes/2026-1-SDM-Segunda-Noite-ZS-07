@@ -1,37 +1,35 @@
 :root{
-    --coral: #D85A30;
-    --claro: #F0997B;
-    --escuro: #993C1D;
-    --fundo: #F1EFE8;
-    --texto: #444441;
-    --sucesso: #1D9E75;
-    --alerta: #BA7517;
+    --primary-escuro: #993C1D;
+    --primary: #D95D39;
+    --secondary: #F3A88C;
+    --dark: #1E1E1E;
+    --text: #333333;
+    --text-light: #666666;
+    --grey: #CCCCCC;
+    --success: #1D9E75;
+    --warning: #BA7517;
     --info: #378ADD;
-    --destaque: #D4537E;
-    --bege-claro: #F5ECE0;
+    --error: #F44336;
+    --bege-secondary: #F5ECE0;
+    --background: #F9F6ED;
+    --white: #FFFFFF;
 }
 
 body{
-    background: var(--fundo);
+    background: var(--background);
 }
 
 .btn, button, input[type="button"], input[type="submit"], a.btn{
-    color: var(--bege-claro);
+    color: var(--bege-secondary);
 }
 
     header{
-        background: var(--coral);
+        background: var(--primary);
     }
 
     /* Brand title color (Adotar&Amar) */
     header a.logoTitle{
-        color: var(--bege-claro) !important;
-    }
-
-    a{
-        color: var(--texto);
-        font-weight: 600;
-        font-size: 1.8rem;
+        color: var(--bege-secondary) !important;
     }
 
     .bi-heart-fill{
@@ -47,25 +45,8 @@ body{
 
 /* Inicio Home */
 
-    .secao-topo{
-        background: var(--claro);
-    }
-
-    .margem-principal{
-        padding: 0 70px;
-    }
-
-    .secao-topo>.container>h1{
-        font-size: 1.8rem;
-    }
-
-    .secao-topo>.container>p{
-        font-weight: 600;
-        color: var(--texto);
-    }
-
     .botao-filtro{
-        background: var(--coral);
+        background: var(--primary);
         font-weight: 500;
         border-radius: 30px;
         color: white;
@@ -73,177 +54,75 @@ body{
     }
 
     .botao-filtro:hover{
-        background: var(--escuro);
+        background: var(--primary-escuro);
     }
 
     .botao-filtro:active{
-        background: var(--coral) !important;
-    }
-
-    .texto-destaque{
-        font-size: 1.2rem;
-    }
-
-    .bi-arrow-right-short{
-        font-size: 1.4rem;
+        background: var(--primary) !important;
     }
 
     .botao-ver-todos{
         border: none;
         transition: 0.4s;
-    }
-
-    .botao-ver-todos:hover{
-        color: black;
+        color: var(--dark);
     }
 
     .destaque-animal{
-        background: white;
+        background: var(--white);
         width: 100%;
-        margin: 0 10px;
         text-align: center;
         padding: 0;
         border-radius: 10px;
-        height: 250px;
-        border: 1px solid rgb(180, 180, 180);
+        border: 1px solid var(--grey);
+        display: flex;
+        flex-direction: column;
     }
 
     .foto-animal{
+        object-fit: cover;
         width: 100%;
+        height: 150px;
         background:rgb(200, 200, 200);
-        height: 50%;
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
-        box-shadow: inset 0px -5px 10px 0px rgb(170, 170, 170);
+        box-shadow: inset 0px -5px 10px 0px var(--grey);
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-shrink: 0;
+        min-height: 150px;
     }
 
     .sobre-animal{
-        height: 50%;
+        height: 100%;
+        margin: 5px 10px;
         border-bottom-left-radius: 6px;
         border-bottom-right-radius: 6px;
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
-        justify-content: end;
+        justify-content: space-between;
     }
 
     .sobre-animal>button{
-        background: var(--coral);
+        background: var(--primary);
         border: none;
         margin: 10px 20px;
         text-transform: uppercase;
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--texto);
+        color: var(--text);
     }
     
     .sobre-animal>button:hover{
-        background: var(--escuro);
+        background: var(--primary-escuro);
     }
 
     .sobre-animal>button:active{
-        background: var(--coral) !important;
+        background: var(--primary) !important;
     }
 
 /* Fim Home */
-
-/* Inicio Animais*/
-
-    .search-container {
-        border-color: #e0e0e0 !important;
-        transition: all 0.2s ease;
-        width: 100%;
-    }
-
-    .search-container input {
-        font-size: 1.05rem;
-    }
-
-    .search-container input::placeholder {
-        color: #b0b0b0;
-        font-weight: 500;
-    }
-
-    .search-container:focus-within {
-        border-color: #b4b4ff !important;
-        box-shadow: 0 0 0 0.2rem rgba(180, 180, 255, 0.25) !important;
-    }
-
-    .formulario-animais{
-        background: white;
-        border-radius: 10px;
-        border: 1px solid rgb(200,200,200);
-        
-    }
-
-    .texto-filtros{
-        font-size: 1.2rem;
-        font-weight: 500;
-    }
-
-    hr{
-        color: var(--claro);
-    }
-
-    .custom-checkbox:checked {
-        background-color: var(--coral) !important;
-        border-color: var(--coral) !important;
-    }
-
-    .custom-checkbox:focus {
-        box-shadow: 0 0 0 0.25rem rgba(217, 94, 50, 0.2) !important;
-        border-color: var(--coral) !important;
-    }
-
-    .span-animais{
-        color: var(--coral);
-    }
-
-    .pagination-pill {
-        border-color: var(--bege-claro) !important;
-    }
-
-    .page-nav-link {
-        font-size: 0.95rem;
-        font-weight: bold;
-        transition: color 0.2s ease;
-    }
-
-    .page-nav-link:hover {
-        color: var(--coral) !important;
-    }
-
-    /* Números individuais */
-    .page-num {
-        font-size: 0.95rem;
-        font-weight: bold;
-        cursor: pointer;
-        padding: 2px 8px;
-    }
-
-    /* Número Ativo (Quadrado Laranja Redondinho) */
-    .page-num.active {
-        background-color: var(--coral);
-        color: white !important;
-        border-radius: 6px;
-    }
-
-    .total-animals {
-        color: var(--escuro) !important;
-        font-size: 0.9rem;
-    }
-
-    .btn-ver-mais{
-        font-size: 0.9rem;
-        background: transparent;
-        border: none;
-        color: var(--escuro);
-        font-weight: 500;
-    }
-
-/* Fim animais */
 
 /* Inicio Rodapé */
 

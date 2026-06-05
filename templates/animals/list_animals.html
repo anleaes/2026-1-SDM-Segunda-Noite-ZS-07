@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     {{ block.super }}
 {% endblock title %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/list_animals.css' %}">
+{% endblock extra_css %}
+
 {% block body %}
     <div class="margem-principal container mt-4">
-        <form class="d-flex w-50 gap-3 mb-4">
+        <form class="d-flex w-75 gap-3 mb-4">
             <div class="search-container d-flex align-items-center bg-white border rounded-pill px-3 py-2 shadow-sm">
                 <input type="text" class="form-control bg-transparent border-0 p-0 shadow-none text-muted" placeholder="Buscar por raça, nome, cidade...">
             </div>
             <button class="btn botao-filtro">Buscar</button>
         </form>
         <div class="row">
-            <form class="col-md-4 h-100 formulario-animais">
+            <form class="col-sm-4 h-100 formulario-animais">
                 <div class="mx-3 mt-2 text-center">
                     <p class="texto-filtros mb-0">Filtros</p>
                 </div>
@@ -75,9 +80,9 @@
                     Aplicar filtros
                 </button>
             </form>
-            <div class="col-md-8 d-flex flex-column">
+            <div class="col-sm-8 d-flex flex-column">
                 <div class="text-muted mb-3 fs-6 font-monospace">
-                    Mostrando <span class="fw-bold span-animais">48 animais</span>
+                    Mostrando <span class="fw-bold span-animais">{{ animals|length }} animais</span>
                 </div>
                 <div class="row g-4 mb-4">
                     {% for animal in animals %}
@@ -108,9 +113,9 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="pagination-pill d-flex justify-content-between align-items-center bg-white border rounded-pill px-4 py-2 shadow-sm mt-auto">
+                <div class="pagination-pill d-flex justify-content-between align-items-center bg-white border rounded-pill px-4 py-2 shadow-sm">
                     <a href="#" class="page-nav-link text-muted text-decoration-none">
-                        <i class="bi bi-arrow-left me-1"></i> Anterior
+                        <i class="bi bi-arrow-left me-1"></i> <span class="d-none d-md-inline">Anterior</span>
                     </a>
                     <div class="page-numbers d-flex align-items-center gap-3">
                         <span class="page-num active shadow-sm">1</span>
@@ -120,7 +125,7 @@
                         <a href="#" class="page-num text-muted text-decoration-none">12</a>
                     </div>
                     <a href="#" class="page-nav-link text-muted text-decoration-none">
-                        Próxima <i class="bi bi-arrow-right ms-1"></i>
+                        <span class="d-none d-md-inline">Próxima</span> <i class="bi bi-arrow-right ms-1"></i>
                     </a>
                 </div>
             </div>
