@@ -8,5 +8,7 @@ router = routers.SimpleRouter()
 router.register('', views.AdopterViewSet, basename='adotantes')
 
 urlpatterns = [
-    path('', include(router.urls) )
+    path('adicionar/', views.add_adopter, name='add_adopter'),
+    path('editar/<int:register_adopter>/', views.edit_adopter, name='edit_adopter'),
+    path('', include(router.urls) ),
 ]

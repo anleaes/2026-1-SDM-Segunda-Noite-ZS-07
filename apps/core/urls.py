@@ -7,6 +7,5 @@ app_name = 'core'
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', TemplateView.as_view(template_name='core/login.html'), name='login'),
-
-
+    path('gerenciamento/', views.management_panel, name='management_panel'),
 ]

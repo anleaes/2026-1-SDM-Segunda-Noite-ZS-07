@@ -3,7 +3,7 @@ from persons.models import Person
 
 # Create your models here.
 class Adopter(Person):
-    yard_security = models.BooleanField('Segurança do Jardim', default=False, null=False, choices=[
+    yard_security = models.BooleanField('Segurança do Local', default=False, null=False, choices=[
         (True, 'Seguro'),
         (False, 'Não seguro'),
     ])

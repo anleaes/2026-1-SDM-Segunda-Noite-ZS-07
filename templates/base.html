@@ -4,58 +4,90 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    {% comment %} <meta http-equiv="X-UA-Compatible" content="IE=edge"> {% endcomment %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AdoptionApp{% endblock title %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    {% block extra_css %}
+    {% endblock extra_css %}
 </head>
 <body>
     <header>
-        <div class="d-flex justify-content-between py-3 container">
-            <a href="{% url 'core:home' %}" class="d-flex align-items-center text-decoration-none logoTitle">
+        <nav class="navbar navbar-expand-md navbar-dark py-3 container">
+            
+            <a href="{% url 'core:home' %}" class="navbar-brand d-flex align-items-center text-decoration-none logoTitle m-0">
                 <i class="bi bi-heart-fill me-1"></i>
                 Adotar&Amar
             </a>
-            <ul class="nav align-items-center">
-                <li class="nav-item">
-                    <a href="{% url "animals:list_animals" %}" class="btn">Animais</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn">Como adotar?</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn">Sobre</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="btn dropdown-toggle" href="#" id="accountMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
-                        <li class="dropdown-item-text">Você: {{ user.get_full_name|default:user.username }}</li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_change_information' user.username %}">Conta</a></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_change_password' %}">Trocar senha</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:user_logout' %}">Sair</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a href="{% url 'accounts:user_login' %}" class="btn">
-                        <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                    </a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+            
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacao" aria-controls="menuNavegacao" aria-expanded="false" aria-label="Abrir menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="menuNavegacao">
+                <ul class="navbar-nav align-items-center mt-3 mt-md-0 gap-2">
+                    
+                    <li class="nav-item w-100">
+                        <a href="{% url 'animals:list_animals' %}" class="nav-link fs-5 text-white">
+                            Animais
+                        </a>
+                    </li>
+                    
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown w-100">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="accountMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle fs-3 me-2 d-none d-md-block"></i>
+                            <span class="d-md-none fs-5">Minha Conta</span> 
+                        </a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-md-end text-start shadow border-0 mt-2" aria-labelledby="accountMenu">
+                            <li class="dropdown-item-text fw-bold text-muted">
+                                Olá, {{ user.get_full_name|default:user.username }}
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2" href="{% url 'accounts:user_change_information' user.username %}">
+                                    Configurações da Conta
+                                </a>
+                            </li>
+                            {% if user.is_superuser %}
+                                <li>
+                                    <a class="dropdown-item py-2" href="{% url 'core:management_panel' %}">
+                                        Gerenciamento do Site
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a class="dropdown-item py-2" href="{% url 'accounts:user_change_password' %}">
+                                    Trocar Senha
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2 text-danger fw-bold" href="{% url 'accounts:user_logout' %}">
+                                    Sair
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item w-100">
+                        <a href="{% url 'accounts:user_login' %}" class="nav-link text-white d-flex align-items-center">
+                            <i class="bi bi-person-circle fs-2 me-2 d-none d-md-block"></i>
+                            <span class="d-md-none fs-5">Entrar</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
     </header>
 
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -67,13 +99,18 @@
     
     {% endblock body %}
 
-    <footer class="mt-5 px-auto">
-        <div class="container d-flex justify-content-center text-light">
-            <p >© 2026 Adotar&Amar</p>
-            <span class="mx-2">·</span>
-            <p>Trabalho Acadêmico</p>
-            <span class="mx-2">·</span>
-            <p>Porto Alegre, RS</p>
+    <footer class="mt-5 py-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-center align-items-center text-light gap-2 gap-md-0 text-center">
+            
+            <p class="mb-0">© 2026 Adotar&Amar</p>
+            
+            <span class="mx-2 d-none d-md-inline">·</span> 
+            
+            <p class="mb-0">Trabalho Acadêmico</p>
+            
+            <span class="mx-2 d-none d-md-inline">·</span>
+            
+            <p class="mb-0">Porto Alegre, RS</p>
         </div>
     </footer>
     
