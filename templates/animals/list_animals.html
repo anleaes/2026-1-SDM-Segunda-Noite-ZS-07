@@ -102,7 +102,7 @@
                                             {{char}}
                                         {% endfor %}
                                     </div>
-                                    {% include 'includes/adopt_button.html' with animal=animal classes='btn text-light' text='adotar' %}
+                                    <a href="{% url 'animals:animal_detail' animal.pk %}" class="btn botao-filtro mx-3 mb-2">Ver Mais</a>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ animal.name }} · AdoptionApp{% endblock title %}
+
+{% block body %}
+<div class="container mt-4 mb-5 margem-principal">
+
+    <a onclick="history.back()" role="button" class="d-inline-flex align-items-center mb-4 text-decoration-none fw-semibold fs-6" style="color: var(--coral); cursor: pointer;">
+        <i class="bi bi-arrow-left me-2"></i> Voltar
+    </a>
+
+    <div class="row g-4">
+
+        <!-- Foto expandida -->
+        <div class="col-md-5">
+            <div class="rounded-3 overflow-hidden shadow" style="height: 420px; background: rgb(210,210,210);">
+                {% if animal.photo %}
+                    <img src="{{ animal.photo.url }}" class="w-100 h-100 object-fit-cover" alt="{{ animal.name }}">
+                {% else %}
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light">
+                        <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Informações -->
+        <div class="col-md-7">
+            <div class="card border shadow-sm h-100">
+                <div class="card-body d-flex flex-column p-4">
+
+                    <!-- Cabeçalho -->
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <div>
+                            <h2 class="fw-bold fs-3 mb-1" style="color: var(--texto);">{{ animal.name }}</h2>
+                            <p class="text-muted small fw-medium mb-0">
+                                {{ animal.breed }}
+                                <span class="mx-1">·</span>
+                                {{ animal.breed.specie }}
+                            </p>
+                        </div>
+                        {% if animal.adopted %}
+                            <span class="badge rounded-pill px-3 py-2 bg-secondary">Adotado</span>
+                        {% else %}
+                            <span class="badge rounded-pill px-3 py-2" style="background: var(--sucesso);">Disponível</span>
+                        {% endif %}
+                    </div>
+
+                    <hr class="my-3">
+
+                    <!-- Grid de dados -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-6 col-sm-4">
+                            <div class="d-flex flex-column rounded p-2" style="background: var(--fundo);">
+                                <span class="text-muted fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Sexo</span>
+                                <span class="fw-semibold mt-1 small" style="color: var(--texto);">
+                                    {% if animal.sex == 'M' %}<i class="bi bi-gender-male me-1"></i>Macho
+                                    {% else %}<i class="bi bi-gender-female me-1"></i>Fêmea{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="d-flex flex-column rounded p-2" style="background: var(--fundo);">
+                                <span class="text-muted fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Porte</span>
+                                <span class="fw-semibold mt-1 small" style="color: var(--texto);">{{ animal.get_size_display }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="d-flex flex-column rounded p-2" style="background: var(--fundo);">
+                                <span class="text-muted fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Cor</span>
+                                <span class="fw-semibold mt-1 small" style="color: var(--texto);">{{ animal.color }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="d-flex flex-column rounded p-2" style="background: var(--fundo);">
+                                <span class="text-muted fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Castrado</span>
+                                <span class="fw-semibold mt-1 small" style="color: var(--texto);">
+                                    {% if animal.sterilized %}
+                                        <i class="bi bi-check-circle-fill me-1" style="color: var(--sucesso);"></i>Sim
+                                    {% else %}
+                                        <i class="bi bi-x-circle-fill me-1 text-danger"></i>Não
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="d-flex flex-column rounded p-2" style="background: var(--fundo);">
+                                <span class="text-muted fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Nascimento</span>
+                                <span class="fw-semibold mt-1 small" style="color: var(--texto);">{{ animal.birth_date|date:"d/m/Y" }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="d-flex flex-column rounded p-2" style="background: var(--fundo);">
+                                <span class="text-muted fw-semibold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Cadastrado em</span>
+                                <span class="fw-semibold mt-1 small" style="color: var(--texto);">{{ animal.listedAt|date:"d/m/Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Características -->
+                    {% if animal.characteristic.all %}
+                    <div class="mb-4">
+                        <p class="text-uppercase fw-bold small text-muted mb-2" style="letter-spacing: 0.06em;">Características</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for char in animal.characteristic.all %}
+                                {% if char.is_positive %}
+                                    <span class="badge rounded-pill d-inline-flex align-items-center px-3 py-2 fw-semibold" style="background: rgba(29,158,117,0.12); color: var(--sucesso); border: 1px solid rgba(29,158,117,0.3);">
+                                        <i class="bi bi-check2 me-1"></i>{{ char.name }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge rounded-pill d-inline-flex align-items-center px-3 py-2 fw-semibold" style="background: rgba(216,90,48,0.10); color: var(--escuro); border: 1px solid rgba(216,90,48,0.25);">
+                                        <i class="bi bi-exclamation me-1"></i>{{ char.name }}
+                                    </span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Botão adotar -->
+                    <div class="mt-auto">
+                        {% if not animal.adopted %}
+                            {% include 'includes/adopt_button.html' with animal=animal classes='btn botao-filtro w-100 py-2 fw-bold' text='Adotar' %}
+                        {% else %}
+                            <button class="btn w-100 py-2 fw-bold rounded-pill bg-secondary text-white" disabled>Animal já adotado</button>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock body %}
