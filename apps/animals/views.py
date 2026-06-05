@@ -12,7 +12,8 @@ class AnimalViewSet(viewsets.ModelViewSet):
     queryset = Animal.objects.select_related(
         'breed', 'breed__specie' 
     ).prefetch_related(
-        'characteristic'
+        'characteristic',
+        'vaccination_set__vaccineitem_set__vaccines'
     ).all()
 
 def list_animals(request):
