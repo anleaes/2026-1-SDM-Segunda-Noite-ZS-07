@@ -32,6 +32,7 @@ class AnimalSerializer(serializers.ModelSerializer):
     breed = serializers.PrimaryKeyRelatedField(
         queryset=Breed.objects.all() # Garanta que importou o modelo Breed no topo
     )
+    breed_name = serializers.CharField(source='breed.name', read_only=True)
     characteristic = serializers.SlugRelatedField(
         many=True,
         slug_field='name', # <-- Nome do campo de texto que está no modelo de Characteristic (ex: 'name' ou 'description')
