@@ -1,3 +1,5 @@
+from breeds.models import Breed
+from characteristics.models import Characteristic
 from .models import Animal
 from vaccines.models import Vaccine
 from vaccination.models import Vaccination
@@ -27,8 +29,14 @@ class VaccinationSerializer(serializers.ModelSerializer):
         fields = ['vaccinatedAt', 'weight_at', 'itens']
 
 class AnimalSerializer(serializers.ModelSerializer):
-    breed = serializers.StringRelatedField()
-    characteristic = serializers.StringRelatedField(many=True)
+    breed = serializers.PrimaryKeyRelatedField(
+        queryset=Breed.objects.all() # Garanta que importou o modelo Breed no topo
+    )
+    characteristic = serializers.SlugRelatedField(
+        many=True,
+        slug_field='name', # <-- Nome do campo de texto que está no modelo de Characteristic (ex: 'name' ou 'description')
+        queryset=Characteristic.objects.all()
+    )
     species = serializers.StringRelatedField(source='breed.specie', read_only=True)
     vaccine_history = VaccinationSerializer(source='vaccination_set', many=True, read_only=True)
     class Meta:
