@@ -145,6 +145,7 @@ def add_adopter(request):
              
     return redirect(template_name)
 
+@user_passes_test(is_admin_or_mod)
 def edit_adopter(request, register_adopter):
     template_name = 'core:management_panel'
     adopter = get_object_or_404(Adopter, register=register_adopter)

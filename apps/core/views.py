@@ -11,7 +11,10 @@ from adopters.forms import AdopterForm
 
 def home(request):
     template_name ='core/home.html'
-    animals = Animal.objects.filter(adopted=False).prefetch_related('characteristic')
+
+    all_animals = Animal.objects.all().prefetch_related('characteristic')
+    animals = [animal for animal in all_animals if not animal.adopted]
+
     context = {
         'animals': animals
     }

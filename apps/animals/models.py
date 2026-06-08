@@ -18,10 +18,7 @@ class Animal(models.Model):
     color = models.CharField('Cor', max_length=50, null=False, blank=False,)
     sterilized = models.BooleanField('Castrado', null=False,  blank=False, default=False)
     listedAt = models.DateField('Data de Listagem', null=False, blank=False)
-    adopted = models.BooleanField('Adotado', null=False, default=False, choices=[
-        (True, 'Adotado'),
-        (False, 'Para adoção'),
-        ])
+    adopted = models.BooleanField('Adotado', null=False, default=False)
     photo = models.ImageField('Foto', upload_to='photos', null=True, blank=True)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     characteristic = models.ManyToManyField(Characteristic, verbose_name='Caracteristicas')

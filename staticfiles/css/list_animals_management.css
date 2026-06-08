@@ -1,0 +1,106 @@
+.badge-caracteristica {
+    padding: 0.35rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+}
+
+.custom-switch:checked {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.custom-switch {
+    width: 2.8rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.form-django {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .form-django {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.form-django p {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-django label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.form-django input, 
+.form-django select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--grey);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--text);
+    background-color: #FAFAFA;
+    transition: all 0.3s ease;
+}
+
+.form-django input:focus, 
+.form-django select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(217, 93, 57, 0.2);
+    outline: none;
+    background-color: var(--white);
+}
+
+.form-django input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-check-custom {
+    position: absolute;
+    clip: rect(0,0,0,0);
+    pointer-events: none;
+}
+
+/* 1. Estado NÃO SELECIONADO (Fica Cinza) */
+.btn-check-custom + .badge-interativo {
+    background-color: #FAFAFA;   /* Fundo cinza bem claro */
+    color: #888888;              /* Texto cinza */
+    border: 1px solid #DCDCDC;   /* Borda cinza */
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;         /* Formato de pílula arredondada */
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    display: inline-block;
+}
+
+/* Efeito ao passar o mouse por cima das opções cinzas */
+.btn-check-custom + .badge-interativo:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: rgba(217, 93, 57, 0.05);
+}
+
+/* 2. Estado SELECIONADO (Ganha a Cor Primária do Site) */
+/* Removemos a divisão de positivo/negativo para unificar na cor do site */
+.btn-check-custom:checked + .badge-interativo {
+    background-color: rgba(217, 93, 57, 0.2); /* Fundo translúcido da cor primária */
+    color: var(--primary);                     /* Texto na cor primária */
+    border: 1px solid var(--primary);          /* Borda na cor primária */
+}

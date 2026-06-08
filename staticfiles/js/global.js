@@ -147,3 +147,39 @@ function enviarEdicaoNivel() {
     
     enviarRequisicao(id, 'employee', 'alterar_cargo', { role: valor });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const botoesModificar = document.querySelectorAll('.btn-modificar-char');
+    const modalElement = document.getElementById('modal-char');
+    const modal = new bootstrap.Modal(modalElement);
+
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+
+        botoesModificar.forEach(botao => {
+            botao.addEventListener('click', function() {
+                const animalId = this.getAttribute('data-animal-id');
+                const animalName = this.getAttribute('data-animal-name');
+                const charsString = this.getAttribute('data-chars');
+
+                const animalChars = charsString.split(',').filter(id => id !== '');
+
+                document.getElementById('modal-char-title').textContent = 'Características - ' + animalName;
+                document.getElementById('modal-animal-id').value = animalId;
+
+                const checkboxes = modalElement.querySelectorAll('.char-checkbox');
+                checkboxes.forEach(chk => {
+                    if (animalChars.includes(chk.value)) {
+                        chk.checked = true;
+                    } else {
+                        chk.checked = false;
+                    }
+                });
+
+                document.getElementById('form-edit-char').action = `/animais/editar/${animalId}/`;
+
+                modal.show();
+            });
+        });
+    }
+});
