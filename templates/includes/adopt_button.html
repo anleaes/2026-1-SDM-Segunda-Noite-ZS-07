@@ -1,0 +1,7 @@
+{% with btn_text=text|default:'adotar' btn_classes=classes|default:'btn' %}
+    {% if user.is_authenticated %}
+        <button type="button" class="{{ btn_classes }}" {% if adopt_url %}onclick="window.location.href='{{ adopt_url }}'"{% endif %}>{{ btn_text }}</button>
+    {% else %}
+        <button type="button" class="{{ btn_classes }}" onclick="window.location.href='{% url 'accounts:user_login' %}?next={{ request.get_full_path|urlencode }}'">{{ btn_text }}</button>
+    {% endif %}
+{% endwith %}

@@ -20,19 +20,22 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    path('', include('core.urls', namespace='core')),
     path('pessoas/', include('persons.urls', namespace='persons')),
     path('especies/', include('species.urls', namespace='species')),
     path('funcionarios/', include('employees.urls', namespace='employees')),
     path('adotantes/', include('adopters.urls', namespace='adopters')),
     path('racas/', include('breeds.urls', namespace='breeds')),
     path('vacinas/', include('vaccines.urls', namespace='vaccines')),
-    path('caracteristicas/', include('characteristics.urls', namespace='characteristics')),
+    path('caracteristicas/', include('characteristics.urls',
+         namespace='characteristics')),
     path('animais/', include('animals.urls', namespace='animals')),
     path('adocoes/', include('adoptions.urls', namespace='adoptions')),
     path('termos/', include('adoptionterm.urls', namespace='adoptionsterm')),
     path('vacinacoes/', include('vaccination.urls', namespace='vaccination')),
     path('itens-vacina/', include('vaccineItens.urls', namespace='vaccineItens')),
     path('admin/', admin.site.urls),
+    path('contas/', include('accounts.urls', namespace='accounts')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

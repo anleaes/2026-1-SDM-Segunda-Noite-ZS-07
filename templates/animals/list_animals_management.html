@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/list_animals_management.css' %}">
+{% endblock extra_css %}
+
+{% block body %}
+<div class="container py-4">
+
+    <div class="rn-card">
+
+        <div class="tab-content" id="tabGerenciamentoConteudo">
+            
+            <div class="tab-pane fade show active mb-3" id="animals-panel" role="tabpanel" aria-labelledby="animals-tab">
+                
+                <div class="d-flex gap-3 overflow-auto flex-nowrap pb-4 align-items-start">
+                    
+                    {% for animal in animals %}
+                    <div class="border rounded-3 p-0 bg-white shadow-sm flex-shrink-0" style="width: 250px;">
+                        
+                        <div class="text-center cursor-pointer" data-bs-toggle="collapse" data-bs-target="#animal-collapse-{{ animal.id }}" style="cursor: pointer;">
+                            {% if animal.photo %}
+                                <img class="foto-animal" src="{{ animal.photo.url }}">
+                            {% else %}
+                                <div class="foto-animal d-flex align-items-center justify-content-center bg-light border text-muted" style="width: 100%; height: 150px; object-fit: cover;">
+                                    <i class="bi bi-camera fs-1"></i>
+                                </div>
+                            {% endif %}
+                            <div class="mt-2 mb-3">
+                                <h6 class="fw-bold mb-0" style="color: var(--text);">{{ animal.name }}</h6>
+                                <small class="text-muted">{{ animal.breed }}</small>
+                            </div>
+                            <i class="bi bi-chevron-down text-muted fs-5"></i>
+                        </div>
+
+                        <div class="collapse mx-4" id="animal-collapse-{{ animal.id }}">
+    
+                            <div class="d-flex flex-wrap gap-2 mt-3">
+                                {% for char in animal.characteristic.all %}
+                                    <span class="badge-caracteristica"
+                                    style=" {% if char.is_positive %}
+                                    background-color:rgba(0, 210, 0, 0.2);
+                                    color: var(--success);
+                                    border: 1px solid var(--success);
+                                    {% else %}
+                                    background-color:rgba(210, 0, 0, 0.2);
+                                    color: var(--error);
+                                    border: 1px solid var(--error);
+                                    {% endif %}">
+                                        {{ char }}
+                                    </span>
+                                {% empty %}
+                                    <small class="text-muted text-center w-100">Nenhuma característica.</small>
+                                {% endfor %} 
+                            </div>
+
+                            <button type="button" class="btn botao-filtro my-3 mx-auto d-block btn-modificar-char" data-animal-id="{{ animal.id }}" data-animal-name="{{ animal.name }}" data-chars="{% for c in animal.characteristic.all %}{{ c.id }},{% endfor %}">
+                                Modificar
+                            </button>
+
+                            <form method="POST" action="{% url "animals:edit_animal" animal.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="quick_status_update" value="true">
+
+                                <div class="d-flex flex-column gap-1 mt-2">
+                                    <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0 m-0">
+                                        <label class="form-check-label fw-medium small">Castrado</label>
+                                        <input class="form-check-input ms-0 shadow-none custom-switch" type="checkbox" role="switch" name="sterilized"{% if animal.sterilized %}checked{% endif %}>
+                                    </div>
+                                    <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0 m-0">
+                                        <label class="form-check-label fw-medium small">Adotado</label>
+                                        <input class="form-check-input ms-0 shadow-none custom-switch" type="checkbox" role="switch" name="adopted" {% if animal.adopted %}checked{% endif %}>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn botao-filtro my-3 mx-auto d-block">
+                                    Salvar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="w-100 text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        Nenhum animal cadastrado.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="border rounded-3 bg-white shadow-sm mb-4 overflow-hidden">
+                <div class="d-flex justify-content-between align-items-center p-3" 
+                        style="cursor: pointer;" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#formNovoAnimal">
+                    <span class="fw-bold fs-6" style="color: var(--text);">
+                        <i class="bi bi-person-plus-fill me-2" style="color: var(--primary);"></i> 
+                        Cadastrar Novo Animal
+                    </span>
+                    <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                
+                <div class="collapse" id="formNovoAnimal">
+                    <div class="p-4">
+                        <form action="{% url 'animals:add_animal' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <div class="form-django">
+                                {{ form_animals.as_p }}
+                            </div>
+                            
+                            <div class="text-end mt-4 pt-3 border-top">
+                                <button type="submit" class="btn botao-filtro px-4 py-2 fw-bold">Salvar Animal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+
+<div class="modal fade text-start" id="modal-char" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-char-title" style="color: var(--text);">Características</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            
+            <form method="POST" id="form-edit-char" action="">
+                {% csrf_token %}
+                <input type="hidden" name="quick_characteristics_update" id="modal-animal-id" value="">
+                
+                <div class="modal-body">
+                    <p class="small text-muted mb-2">Características Positivas:</p>
+                    
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        {% for char in characteristics %}
+                            {% if char.is_positive %}
+                                <input type="checkbox" 
+                                    class="btn-check-custom char-checkbox char-positiva" 
+                                    name="characteristics" 
+                                    id="char-{{ char.id }}" 
+                                    value="{{ char.id }}">
+                                <label class="badge-interativo" for="char-{{ char.id }}">
+                                    {{ char }}
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <p class="small text-muted mb-2">Características Negativas:</p>
+                    
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for char in characteristics %}
+                            {% if not char.is_positive %}
+                                <input type="checkbox" 
+                                    class="btn-check-custom char-checkbox char-negativa" 
+                                    name="characteristics" 
+                                    id="char-{{ char.id }}" 
+                                    value="{{ char.id }}">
+                                <label class="badge-interativo" for="char-{{ char.id }}">
+                                    {{ char }}
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn botao-filtro">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

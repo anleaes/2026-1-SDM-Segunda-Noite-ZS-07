@@ -1,0 +1,79 @@
+#tabGerenciamento .nav-link {
+    color: var(--text-light);
+    background: transparent;
+    transition: 0.2s;
+}
+
+#tabGerenciamento .nav-link.active {
+    background-color: var(--white) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08) !important;
+}
+
+.custom-switch:checked {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+.custom-switch {
+    width: 2.8rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.bi-pencil-square,
+.bi-house-door,
+.bi-geo-alt,
+.bi-check-circle{
+    color: var(--primary);
+}
+
+.form-django {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .form-django {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.form-django p {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-django label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.form-django input, 
+.form-django select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--grey);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--text);
+    background-color: #FAFAFA;
+    transition: all 0.3s ease;
+}
+
+.form-django input:focus, 
+.form-django select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(217, 93, 57, 0.2);
+    outline: none;
+    background-color: var(--white);
+}
+
+.form-django input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}

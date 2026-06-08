@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -8,6 +9,7 @@ class Person(models.Model):
     first_name = models.CharField('Nome', max_length=200, null=False, blank=False)
     last_name = models.CharField('Sobrenome', max_length=200, null=False, blank=False)
     cpf = models.CharField('CPF', max_length=14, null=False, blank=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Usuário')
 
     class Meta:
         verbose_name = 'Pessoa'
