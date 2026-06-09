@@ -61,10 +61,10 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         if novo_nivel:
             user = employee.user
 
-            if novo_nivel == 'admin':
+            if novo_nivel == 'Administrador':
                 user.is_superuser = True
                 user.is_staff = True
-            elif novo_nivel == 'moderador':
+            elif novo_nivel == 'Moderador':
                 user.is_superuser = False
                 user.is_staff = True
             user.save()
