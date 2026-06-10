@@ -16,7 +16,14 @@ class AdopterViewSet(viewsets.ModelViewSet):
     queryset = Adopter.objects.all()
     serializer_class = AdopterSerializer
     authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    
+    def get_permissions(self):
+        if self.action in ['me', 'alterar_username', 'alterar_senha', 'alterar_endereco', 'partial_update']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAuthenticated, IsAdminUser]
+            
+        return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -56,6 +63,12 @@ class AdopterViewSet(viewsets.ModelViewSet):
             print(f"======== ERRO NO CADASTRO DE CLIENTE: {str(e)} ========")
             return Response({"error": f"Falha no servidor: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        adopter = get_object_or_404(Adopter, user=request.user)
+        serializer = self.get_serializer(adopter)
+        return Response(serializer.data)
+
     @action(detail=True, methods=['patch'])
     def alterar_username(self, request, pk=None):
         adopter = self.get_object()
@@ -77,11 +90,11 @@ class AdopterViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['patch'])
     def alterar_senha(self, request, pk=None):
-        if not request.user.is_superuser:
-            return Response({"error": "Apenas administradores podem alterar senhas de clientes."}, status=status.HTTP_403_FORBIDDEN)
-            
         adopter = self.get_object()
         user = adopter.user
+
+        if request.user != user and not request.user.is_superuser:
+            return Response({"error": "Apenas administradores podem alterar senhas de clientes."}, status=status.HTTP_403_FORBIDDEN)
         
         if not user:
             return Response({"error": "Este adotante não possui um usuário de login vinculado."}, status=status.HTTP_400_BAD_REQUEST)
