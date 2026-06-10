@@ -48,6 +48,12 @@ class EmployeeViewSet(viewsets.ModelViewSet):
             print('esse é o erro', e)
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+   @action(detail=False, methods=['get'])
+   def me(self, request):
+        employee = get_object_or_404(Employee, user=request.user)
+        serializer = self.get_serializer(employee)
+        return Response(serializer.data)
+
    @action(detail=True, methods=['patch'])
    def alterar_cargo(self, request, pk=None):
         employee = self.get_object()
@@ -61,10 +67,10 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         if novo_nivel:
             user = employee.user
 
-            if novo_nivel == 'admin':
+            if novo_nivel == 'Administrador':
                 user.is_superuser = True
                 user.is_staff = True
-            elif novo_nivel == 'moderador':
+            elif novo_nivel == 'Moderador':
                 user.is_superuser = False
                 user.is_staff = True
             user.save()
@@ -92,14 +98,14 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
    @action(detail=True, methods=['patch'])
    def alterar_senha(self, request, pk=None):
-        if not request.user.is_superuser:
+        employee = self.get_object()
+        nova_senha = request.data.get('new_password')
+
+        if request.user != employee.user and not request.user.is_superuser:
             return Response(
                 {"error": "Apenas administradores podem alterar senhas de outros utilizadores."}, 
                 status=status.HTTP_403_FORBIDDEN
             )
-
-        employee = self.get_object()
-        nova_senha = request.data.get('new_password')
 
         if not nova_senha:
             return Response({"error": "Nova senha não fornecida."}, status=status.HTTP_400_BAD_REQUEST)
