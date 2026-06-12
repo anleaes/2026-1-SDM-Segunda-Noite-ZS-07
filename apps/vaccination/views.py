@@ -16,17 +16,16 @@ class VaccinationViewSet(viewsets.ModelViewSet):
     queryset = Vaccination.objects.all()
     serializer_class = VaccinationSerializer
 
+def is_admin_or_mod(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_admin_or_mod)
 def add_vaccination(request):
     if request.method == 'POST':
 
         animal_id = request.POST.get('animal_id')
         data_aplicacao = request.POST.get('vaccinatedAt') 
         peso = request.POST.get('weight_at')
-        
-        print("\n" + "="*40)
-        print("🔍 DEBUG: O QUE CHEGOU DO HTML?")
-        print(request.POST)  # Isso imprime o dicionário inteiro!
-        print("="*40 + "\n")
 
         vacinacao = Vaccination.objects.create(
             animal_id=animal_id,
@@ -37,11 +36,6 @@ def add_vaccination(request):
         
         vaccine_ids = request.POST.getlist('vaccine_ids')
         dosages = request.POST.getlist('dosages')
-
-        print("====== DEBUG DE SALVAMENTO ======")
-        print("Vacinas selecionadas:", vaccine_ids)
-        print("Dosagens informadas:", dosages)
-        print("=================================")
         
         from datetime import datetime
         data_obj = datetime.strptime(data_aplicacao, '%Y-%m-%d').date()
@@ -65,7 +59,7 @@ def add_vaccination(request):
 
 
 def list_vaccinations(request, direction):
-    # 1. SUA LÓGICA ORIGINAL DE POST PRESERVADA
+
     if request.method == 'POST':
         vaccination_id = request.POST.get('vaccination_id')
         if vaccination_id:
@@ -73,23 +67,19 @@ def list_vaccinations(request, direction):
             vaccination.save()
             return redirect('vaccinations:list_vaccinations', direction=direction)
 
-    # 2. BUSCAS NO BANCO DE DADOS
     vaccinations = Vaccination.objects.all()
     
-    # Novas buscas para preencher os selects do formulário HTML
     all_animals = Animal.objects.all().order_by('name')
     all_vaccines = Vaccine.objects.all().order_by('name')
     
-    # Busca de animais com histórico (Otimizada)
     animals_with_history = Animal.objects.filter(
         vaccination__isnull=False 
     ).distinct().prefetch_related(
         'vaccination_set',             
-        'vaccination_set__vaccineitem_set',      # Se o seu model de itens tiver related_name='items'
+        'vaccination_set__vaccineitem_set',
         'vaccination_set__vaccineitem_set__vaccines'
     )
 
-    # 3. EMPACOTAMENTO NO CONTEXTO
     context = {
         'vaccinations': vaccinations,
         'all_animals': all_animals,
@@ -97,9 +87,8 @@ def list_vaccinations(request, direction):
         'animals_with_history': animals_with_history,
     }
         
-    # 4. SUA LÓGICA DE TEMPLATE PRESERVADA
     if direction == 'management':
-        template_name = 'vaccinations/list_vaccinations.html' # Garanta que esse é o nome do arquivo HTML novo!
+        template_name = 'vaccinations/list_vaccinations.html' 
         form_vaccinations = VaccinationsForm()
         context['form_vaccinations'] = form_vaccinations
 
