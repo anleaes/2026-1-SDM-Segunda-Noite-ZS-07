@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Adicionar Raça - {{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/add_breed.css' %}">
+{% endblock extra_css %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="shadow-sm border-0 p-4">
+                <h6 class="fw-bold mb-4" style="color: var(--primary);">Dados da Raça</h6>
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+
+                    <div class="custom-input-group mb-4">
+                        <i class="bi bi-paw custom-input-icon"></i>
+                        <input type="text" name="name" class="custom-input" placeholder="Nome da Raça" required>
+                    </div>
+
+                    <div class="custom-input-group mb-4">
+                        <i class="bi bi-list-ul custom-input-icon"></i>
+                        <select name="specie" class="custom-input" required>
+                            <option value="" disabled selected>Selecione uma espécie</option>
+                            
+                            {% for specie in species %}
+                                <option value="{{ specie.id }}">{{ specie.name }}</option>
+                            {% endfor %}
+                            
+                        </select>
+                    </div>
+
+                    <div class="mt-4 pt-2">
+                        <button type="submit" class="d-block mx-auto btn botao-filtro w-25 py-2 fs-6">
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock body %}
