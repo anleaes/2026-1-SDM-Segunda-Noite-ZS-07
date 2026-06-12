@@ -120,7 +120,7 @@
                     <!-- Botão adotar -->
                     <div class="mt-auto">
                         {% if not animal.adopted %}
-                            {% include 'includes/adopt_button.html' with animal=animal classes='btn botao-filtro w-100 py-2 fw-bold' text='Adotar' %}
+                            <a href="{% url 'adoptions:adoption_form' animal.id %}" class="btn botao-filtro w-100 py-2 fw-bold">Adotar</a>
                         {% else %}
                             <button class="btn w-100 py-2 fw-bold rounded-pill bg-secondary text-white" disabled>Animal já adotado</button>
                         {% endif %}

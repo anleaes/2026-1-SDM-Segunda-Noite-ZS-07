@@ -11,23 +11,24 @@
 <br />
 <br />
 <form action="" method="POST">
-{% csrf_token %}
+    {% csrf_token %}
+
     <label>Primerio nome</label>
     <br />
     {{ form.first_name }}
-    <br />
-    <br />
+    <br /><br />
+
     <label>Sobrenome</label>
     <br />
     {{ form.last_name }}
-    <br />
-    <br />
+    <br /><br />
+
     <label>E-mail</label>
     <br />
     {{ form.email }}
-    <br />
-    <br />
-    <button type="submit">Salvar</button>
+    <br /><br />
+
+    <button type="submit" style="padding: 8px 20px; cursor: pointer; color: black;">Salvar</button>
 </form>
 
 {% endblock body %}

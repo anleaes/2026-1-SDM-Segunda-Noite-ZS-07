@@ -42,35 +42,54 @@
                         </a>
                         
                         <ul class="dropdown-menu dropdown-menu-md-end text-start shadow border-0 mt-2" aria-labelledby="accountMenu">
-                            <li class="dropdown-item-text fw-bold text-muted">
-                                Olá, {{ user.get_full_name|default:user.username }}
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item py-2" href="{% url 'accounts:user_change_information' user.username %}">
-                                    Configurações da Conta
-                                </a>
-                            </li>
-                            {% if user.is_superuser %}
-                                <li>
-                                    <a class="dropdown-item py-2" href="{% url 'core:management_panel' %}">
-                                        Gerenciamento do Site
-                                    </a>
-                                </li>
-                            {% endif %}
-                            <li>
-                                <a class="dropdown-item py-2" href="{% url 'accounts:user_change_password' %}">
-                                    Trocar Senha
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item py-2 text-danger fw-bold" href="{% url 'accounts:user_logout' %}">
-                                    Sair
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                        <li class="dropdown-item-text fw-bold text-muted">
+                            Olá, {{ user.get_full_name|default:user.username }}
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item py-2" href="{% url 'accounts:user_change_information' user.username %}">
+                                Configurações da Conta
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item py-2" href="{% url 'adoptions:my_requests' %}">
+                                Minhas Solicitações
+                            </a>
+                        </li>
+
+                        {% if user.is_staff or user.is_superuser %}
+                        <li>
+                            <a class="dropdown-item py-2" href="{% url 'adoptions:adoption_requests_panel' %}">
+                                Aprovações de Adoção
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% if user.is_superuser %}
+                        <li>
+                            <a class="dropdown-item py-2" href="{% url 'core:management_panel' %}">
+                                Gerenciamento do Site
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li>
+                            <a class="dropdown-item py-2" href="{% url 'accounts:user_change_password' %}">
+                                Trocar Senha
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item py-2 text-danger fw-bold" href="{% url 'accounts:user_logout' %}">
+                                Sair
+                            </a>
+                        </li>
+                    </ul>
                     {% else %}
                     <li class="nav-item w-100">
                         <a href="{% url 'accounts:user_login' %}" class="nav-link text-white d-flex align-items-center">

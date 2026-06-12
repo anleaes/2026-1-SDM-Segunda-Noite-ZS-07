@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Minhas Solicitações · AdoptionApp{% endblock title %}
+
+{% block body %}
+<style>
+  .btn-orange {
+    background-color: #d85a30;
+    border-color: #d85a30;
+    color: #fff;
+  }
+
+  .btn-orange:hover {
+    background-color: #993c1d;
+    border-color: #993c1d;
+    color: #fff;
+  }
+</style>
+
+<div class="container my-5">
+  <h2 class="mb-4">Minhas solicitações</h2>
+
+  <div id="requestsContainer" class="row g-3"></div>
+</div>
+
+<script>
+async function loadRequests() {
+  const response = await fetch('/adocoes/minhas/', {
+    credentials: 'same-origin'
+  });
+
+  const requests = await response.json();
+  const container = document.getElementById('requestsContainer');
+
+  if (requests.length === 0) {
+    container.innerHTML = `
+      <div class="alert alert-info">
+        Você ainda não possui solicitações de adoção.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = requests.map(item => {
+    let statusText = 'Pendente';
+    let badgeClass = 'bg-warning text-dark';
+
+    if (item.status === 'approved') {
+      statusText = 'Aprovada';
+      badgeClass = 'bg-success';
+    }
+
+    if (item.status === 'rejected') {
+      statusText = 'Rejeitada';
+      badgeClass = 'bg-danger';
+    }
+
+    return `
+      <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">${item.animal_name}</h5>
+
+            <p>
+              <strong>Status:</strong>
+              <span class="badge ${badgeClass}">${statusText}</span>
+            </p>
+
+            <p>
+              <strong>Data:</strong>
+              ${new Date(item.submitted_at).toLocaleDateString('pt-BR')}
+            </p>
+
+            ${
+              item.adoption_term && item.adoption_term.document
+              ? `<a href="${item.adoption_term.document}" download target="_blank" class="btn btn-orange btn-sm">
+                  Baixar termo de adoção
+                </a>`
+              : ''
+            }
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+loadRequests();
+</script>
+{% endblock body %}

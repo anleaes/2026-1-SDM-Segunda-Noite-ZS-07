@@ -1,6 +1,10 @@
+from urllib import request
+
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, user_passes_test
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from django.core.files.base import ContentFile
@@ -142,3 +146,20 @@ class AdoptionViewSet(viewsets.ModelViewSet):
         serializer = AdoptionMySerializer(
             queryset, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+@login_required
+def adoption_form_page(request, animal_id):
+    return render(request, 'adoptions/adoption_form.html', {
+        'animal_id': animal_id
+    })
+
+
+@login_required
+def my_requests_page(request):
+    return render(request, 'adoptions/my_requests.html')
+
+
+@user_passes_test(lambda user: user.is_staff)
+def adoption_requests_panel(request):
+    return render(request, 'adoptions/admin_requests.html')

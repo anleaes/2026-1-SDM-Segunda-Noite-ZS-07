@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+{% block title %}Formulário de Adoção · AdoptionApp{% endblock title %}
+
+{% block body %}
+<style>
+  .adoption-header {
+    background-color: #d85a30;
+    color: #fff;
+  }
+
+  .btn-orange {
+    background-color: #d85a30;
+    border-color: #d85a30;
+    color: #fff;
+  }
+
+  .btn-orange:hover {
+    background-color: #993c1d;
+    border-color: #993c1d;
+    color: #fff;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #d85a30;
+    box-shadow: 0 0 0 0.25rem rgba(216, 90, 48, 0.25);
+  }
+
+  .form-check-input:checked {
+    background-color: #d85a30;
+    border-color: #d85a30;
+  }
+
+  .section-title {
+    color: #d85a30;
+    font-weight: 700;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-header adoption-header">
+      <h4 class="mb-0">Formulário de Adoção</h4>
+    </div>
+
+    <div class="card-body">
+      <form id="adoptionForm">
+        {% csrf_token %}
+
+        <input type="hidden" id="animal" value="{{ animal_id }}">
+
+        <h5 class="mb-3 section-title">Dados pessoais</h5>
+
+        <div class="mb-3">
+          <label class="form-label">Nome completo *</label>
+          <input type="text" id="full_name" class="form-control" required>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">CPF *</label>
+            <input type="text" id="cpf" class="form-control" maxlength="11" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Data de nascimento *</label>
+            <input type="text" id="birth_date" class="form-control" placeholder="dd/mm/aaaa" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Telefone *</label>
+            <input type="text" id="phone" class="form-control" maxlength="11" required>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">E-mail</label>
+          <input type="email" id="email" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Profissão</label>
+          <input type="text" id="occupation" class="form-control">
+        </div>
+
+        <hr>
+
+        <h5 class="mb-3 section-title">Endereço</h5>
+
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label class="form-label">CEP *</label>
+            <input type="text" id="cep" class="form-control" maxlength="8" required>
+          </div>
+
+          <div class="col-md-7 mb-3">
+            <label class="form-label">Rua *</label>
+            <input type="text" id="street" class="form-control" required>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Número *</label>
+            <input type="text" id="number" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Complemento</label>
+          <input type="text" id="complement" class="form-control">
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <label class="form-label">Bairro *</label>
+            <input type="text" id="neighborhood" class="form-control" required>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label class="form-label">Cidade *</label>
+            <input type="text" id="city" class="form-control" required>
+          </div>
+
+          <div class="col-md-2 mb-3">
+            <label class="form-label">Estado *</label>
+            <input type="text" id="state" class="form-control" maxlength="2" required>
+          </div>
+        </div>
+
+        <hr>
+
+        <h5 class="mb-3 section-title">Moradia</h5>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Tipo de moradia *</label>
+            <select id="housing_type" class="form-select" required>
+              <option value="">Selecione</option>
+              <option value="Casa">Casa</option>
+              <option value="Apartamento">Apartamento</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Moradia *</label>
+            <select id="ownership_type" class="form-select" required>
+              <option value="">Selecione</option>
+              <option value="Própria">Própria</option>
+              <option value="Alugada">Alugada</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-check mb-2">
+          <input type="checkbox" id="has_yard" class="form-check-input">
+          <label class="form-check-label">Possui pátio?</label>
+        </div>
+
+        <div class="form-check mb-3">
+          <input type="checkbox" id="yard_secured" class="form-check-input">
+          <label class="form-check-label">O pátio é seguro?</label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Quantas pessoas moram na casa? *</label>
+          <input type="number" id="residents_count" class="form-control" required>
+        </div>
+
+        <div class="form-check mb-3">
+          <input type="checkbox" id="has_children" class="form-check-input">
+          <label class="form-check-label">Possui crianças?</label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Idade das crianças</label>
+          <input type="text" id="children_ages" class="form-control">
+        </div>
+
+        <hr>
+
+        <h5 class="mb-3 section-title">Experiência com animais</h5>
+
+        <div class="form-check mb-2">
+          <input type="checkbox" id="had_pets_before" class="form-check-input">
+          <label class="form-check-label">Já teve animais antes?</label>
+        </div>
+
+        <div class="form-check mb-3">
+          <input type="checkbox" id="currently_has_pets" class="form-check-input">
+          <label class="form-check-label">Possui animais atualmente?</label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Descreva os animais atuais</label>
+          <textarea id="current_pets_description" class="form-control"></textarea>
+        </div>
+
+        <hr>
+
+        <h5 class="mb-3 section-title">Motivação</h5>
+
+        <div class="mb-3">
+          <label class="form-label">Por que deseja adotar? *</label>
+          <textarea id="reason_for_adoption" class="form-control" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Quem será responsável pelo animal? *</label>
+          <input type="text" id="caretaker" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-orange">
+          Enviar solicitação
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function getCSRFToken() {
+  return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+document.getElementById('adoptionForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const data = {
+    animal: document.getElementById('animal').value,
+    full_name: document.getElementById('full_name').value,
+    cpf: document.getElementById('cpf').value,
+    birth_date: document.getElementById('birth_date').value,
+    phone: document.getElementById('phone').value,
+    email: document.getElementById('email').value,
+    occupation: document.getElementById('occupation').value,
+    cep: document.getElementById('cep').value,
+    street: document.getElementById('street').value,
+    number: document.getElementById('number').value,
+    complement: document.getElementById('complement').value,
+    neighborhood: document.getElementById('neighborhood').value,
+    city: document.getElementById('city').value,
+    state: document.getElementById('state').value,
+    housing_type: document.getElementById('housing_type').value,
+    ownership_type: document.getElementById('ownership_type').value,
+    has_yard: document.getElementById('has_yard').checked,
+    yard_secured: document.getElementById('yard_secured').checked,
+    residents_count: document.getElementById('residents_count').value,
+    has_children: document.getElementById('has_children').checked,
+    children_ages: document.getElementById('children_ages').value,
+    had_pets_before: document.getElementById('had_pets_before').checked,
+    currently_has_pets: document.getElementById('currently_has_pets').checked,
+    current_pets_description: document.getElementById('current_pets_description').value,
+    reason_for_adoption: document.getElementById('reason_for_adoption').value,
+    caretaker: document.getElementById('caretaker').value
+  };
+
+  const response = await fetch('/adocoes/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCSRFToken()
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(data)
+  });
+
+  if (response.ok) {
+    window.location.href = '/adocoes/minhas-solicitacoes/';
+  } else {
+    const error = await response.json();
+    console.log(error);
+    alert('Erro ao enviar solicitação.');
+  }
+});
+</script>
+
+{% endblock body %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Solicitações de Adoção · AdoptionApp{% endblock title %}
+
+{% block body %}
+<style>
+  .btn-orange {
+    background-color: #d85a30;
+    border-color: #d85a30;
+    color: #fff;
+  }
+
+  .btn-orange:hover {
+    background-color: #993c1d;
+    border-color: #993c1d;
+    color: #fff;
+  }
+</style>
+
+<div class="container my-5">
+  <h2 class="mb-4">Solicitações de Adoção</h2>
+
+  {% csrf_token %}
+
+  <div id="adminRequestsContainer" class="row g-3"></div>
+</div>
+
+<script>
+function getCSRFToken() {
+  return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+function getStatus(status) {
+  if (status === 'approved') {
+    return '<span class="badge bg-success">Aprovada</span>';
+  }
+
+  if (status === 'rejected') {
+    return '<span class="badge bg-danger">Rejeitada</span>';
+  }
+
+  return '<span class="badge bg-warning text-dark">Pendente</span>';
+}
+
+async function loadAdminRequests() {
+  const response = await fetch('/adocoes/', {
+    credentials: 'same-origin'
+  });
+
+  const requests = await response.json();
+  const container = document.getElementById('adminRequestsContainer');
+
+  if (requests.length === 0) {
+    container.innerHTML = `
+      <div class="alert alert-info">
+        Nenhuma solicitação encontrada.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = requests.map(item => `
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">${item.full_name}</h5>
+
+          <p><strong>Animal:</strong> ${item.animal_name}</p>
+          <p><strong>CPF:</strong> ${item.cpf}</p>
+          <p><strong>Telefone:</strong> ${item.phone}</p>
+          <p><strong>E-mail:</strong> ${item.email || '-'}</p>
+          <p><strong>Cidade:</strong> ${item.city} - ${item.state}</p>
+          <p><strong>Status:</strong> ${getStatus(item.status)}</p>
+
+          ${
+            item.status === 'pending'
+            ? `
+              <button class="btn btn-success btn-sm me-2" onclick="updateStatus(${item.id}, 'approved')">
+                Aprovar
+              </button>
+
+              <button class="btn btn-danger btn-sm" onclick="updateStatus(${item.id}, 'rejected')">
+                Rejeitar
+              </button>
+            `
+            : ''
+          }
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function updateStatus(id, status) {
+  const response = await fetch(`/adocoes/${id}/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCSRFToken()
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify({ status: status })
+  });
+
+  if (response.ok) {
+    loadAdminRequests();
+  } else {
+    const error = await response.json();
+    console.log(error);
+    alert('Erro ao atualizar solicitação.');
+  }
+}
+
+loadAdminRequests();
+</script>
+{% endblock body %}
