@@ -8,5 +8,6 @@ router = routers.SimpleRouter()
 router.register('', views.BreedViewSet, basename='racas')
 
 urlpatterns = [
+    path('adicionar/', views.add_breed, name='add_breed'),
     path('', include(router.urls) )
 ]

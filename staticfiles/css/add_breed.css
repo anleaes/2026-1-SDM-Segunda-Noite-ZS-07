@@ -1,0 +1,42 @@
+.custom-input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    background-color: #F8F9FA;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.custom-input-group:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(217, 93, 57, 0.2);
+    background-color: var(--white);
+}
+
+.custom-input-icon {
+    color: #A0A0A0;
+    font-size: 1.2rem;
+    margin-right: 12px;
+}
+
+.custom-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 1rem;
+    color: var(--text);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+select.custom-input {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A0A0A0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1em;
+    padding-right: 2rem;
+    cursor: pointer;
+}
