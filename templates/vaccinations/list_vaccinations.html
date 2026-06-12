@@ -1,0 +1,191 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container py-4">
+
+    <div class="rn-card">
+
+        <div class="tab-content">
+            
+            <div class="tab-pane fade show active mb-3" id="vaccinations-panel">
+                
+                <h5 class="fw-bold mb-3 px-1" style="color: var(--text);">Animais Vacinados</h5>
+                
+                <div class="d-flex gap-3 overflow-auto flex-nowrap pb-4 align-items-start">
+                    
+                    {% for animal in animals_with_history %}
+                    <div class="border rounded-3 p-0 bg-white shadow-sm flex-shrink-0 d-flex flex-column" style="width: 250px;">
+                        
+                        <div class="text-center cursor-pointer p-3 d-flex flex-column" 
+                             data-bs-toggle="collapse" 
+                             data-bs-target="#history-collapse-{{ animal.id }}" 
+                             style="height: 230px;"> 
+                            
+                            {% if animal.photo %}
+                                <img src="{{ animal.photo.url }}" class="rounded-circle object-fit-cover mx-auto mb-3 border" style="width: 80px; height: 80px;">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center bg-light border text-muted mb-3 mx-auto rounded-circle" style="width: 80px; height: 80px; flex-shrink: 0;">
+                                    <i class="bi bi-camera fs-3"></i>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="mt-2 mb-3">
+                                <h6 class="fw-bold mb-0" style="color: var(--text);">{{ animal.name }}</h6>
+                                <small class="text-muted">{{ animal.breed }}</small>
+                            </div>
+                            
+                            <i class="bi bi-chevron-down text-muted fs-5 mt-auto"></i>
+                        </div>
+
+                        <div class="collapse mx-3" id="history-collapse-{{ animal.id }}">
+                            <hr class="my-2 text-muted">
+                            
+                            <div class="mt-2 mb-3 text-start">
+                                <h6 class="small fw-bold text-uppercase text-muted mb-3 text-center">Histórico</h6>
+                                
+                                {% for vacinacao in animal.vaccination_set.all %}
+                                <div class="bg-light border rounded p-2 mb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="fw-bold text-dark small"><i class="bi bi-calendar-event"></i> {{ vacinacao.vaccinatedAt|date:"d/m/Y" }}</span>
+                                        <span class="badge bg-secondary">{{ vacinacao.weight_at }} kg</span>
+                                    </div>
+                                    
+                                    <ul class="list-unstyled mb-0 ms-2 small" style="border-left: 2px solid #dee2e6; padding-left: 10px;">
+                                        {% for item in vacinacao.vaccineitem_set.all %}
+                                        <li class="text-muted mb-1">
+                                            <strong class="text-dark">{{ item.vaccines.name }}</strong><br>
+                                            <span style="font-size: 0.85em;">Dose: {{ item.dosage }} | Val: {{ item.expiration_date|date:"m/Y" }}</span>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% empty %}
+                                <p class="text-muted small text-center">Sem histórico detalhado.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="w-100 text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        Nenhum registro de vacinação encontrado.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="border rounded-3 bg-white shadow-sm mb-4 overflow-hidden">
+                <div class="d-flex justify-content-between align-items-center p-3" 
+                        style="cursor: pointer;" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#formNovaVacinacao">
+                    <span class="fw-bold fs-6" style="color: var(--text);">
+                        <i class="bi bi-syringe me-2" style="color: var(--primary);"></i> 
+                        Registrar Nova Vacinação
+                    </span>
+                    <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                
+                <div class="collapse" id="formNovaVacinacao">
+                    <div class="p-4 bg-light border-top">
+                        <form action="{% url 'vaccination:add_vaccination' %}" method="POST">
+                            {% csrf_token %}
+                            
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-medium small">Animal *</label>
+                                    <select name="animal_id" class="form-select" required>
+                                        <option value="">Selecione o animal...</option>
+                                        {% for pet in all_animals %}
+                                        <option value="{{ pet.id }}">{{ pet.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-medium small">Data da Aplicação *</label>
+                                    <input type="date" name="vaccinatedAt" class="form-control" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-medium small">Peso Atual (kg) *</label>
+                                    <input type="number" step="0.1" name="weight_at" class="form-control" placeholder="Ex: 15.5" required>
+                                </div>
+                            </div>
+
+                            <div class="p-3 border rounded bg-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="fw-bold mb-0">Vacinas Aplicadas</h6>
+                                    <button type="button" class="btn botao-filtro btn-sm" style="background: #1D9E75" onclick="adicionarLinhaVacina()">
+                                        <i class="bi bi-plus-circle"></i> Adicionar Dose
+                                    </button>
+                                </div>
+                                
+                                <div id="container-vacinas">
+                                    <div class="row g-2 align-items-end linha-vacina mb-2">
+                                        <div class="col-md-7">
+                                            <label class="form-label small text-muted mb-1">Vacina *</label>
+                                            <select name="vaccine_ids" class="form-select form-select-sm" required>
+                                                <option value="">Selecione a vacina...</option>
+                                                {% for v in all_vaccines %}
+                                                <option value="{{ v.id }}">{{ v.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label small text-muted mb-1">Dosagem *</label>
+                                            <input type="number" step="any" name="dosages" class="form-control form-control-sm" placeholder="Ex: 1" required>
+                                        </div>
+                                        <div class="col-md-1 text-end">
+                                            <button type="button" class="btn btn botao-filtro btn-sm w-100" style="background: #dc3545" onclick="removerLinha(this)" disabled>
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-end mt-4 pt-3 border-top">
+                                <button type="submit" class="btn botao-filtro px-4 py-2 fw-bold">Salvar Vacinação Completa</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<template id="template-linha-vacina">
+    <div class="row g-2 align-items-end linha-vacina mb-2 mt-2 pt-2 border-top">
+        <div class="col-md-7">
+            <select name="vaccine_ids" class="form-select form-select-sm" required>
+                <option value="">Selecione a vacina...</option>
+                {% for v in all_vaccines %}
+                <option value="{{ v.id }}">{{ v.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="number" step="any" name="dosages" class="form-control form-control-sm" placeholder="Ex: 1" required>
+        </div>
+        <div class="col-md-1 text-end">
+            <button type="button" class="btn btn botao-filtro btn-sm w-100" style="background: #dc3545" onclick="removerLinha(this)">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    </div>
+</template>
+
+<script>
+    function adicionarLinhaVacina() {
+        const container = document.getElementById('container-vacinas');
+        const template = document.getElementById('template-linha-vacina');
+        // Clona o conteúdo do template e joga no container
+        const novaLinha = template.content.cloneNode(true);
+        container.appendChild(novaLinha);
+    }
+
+    function removerLinha(botao) {
+        const linha = botao.closest('.linha-vacina');
+        linha.remove();
+    }
+</script>
+{% endblock body %}
