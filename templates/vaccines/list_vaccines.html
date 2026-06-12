@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ block.super }}{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/list_animals_management.css' %}">
+{% endblock extra_css %}
+
+{% block body %}
+<div class="container py-4">
+
+    <div class="rn-card">
+
+        <div class="tab-content" id="tabGerenciamentoConteudo">
+            
+            <div class="tab-pane fade show active mb-3" id="vaccines-panel" role="tabpanel" aria-labelledby="vaccines-tab">
+                
+                <div class="d-flex gap-3 overflow-auto flex-nowrap pb-4 align-items-start">
+                    
+                    {% for vaccine in vaccines %}
+                    <div class="border rounded-3 p-0 bg-white shadow-sm flex-shrink-0 d-flex flex-column" style="width: 250px;">
+                        
+                        <div class="text-center cursor-pointer p-3 d-flex flex-column flex-grow-1" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#vaccine-collapse-{{ vaccine.id }}" 
+                            style="height: 280px; cursor: pointer;">
+                            
+                            <div class="d-flex align-items-center justify-content-center bg-light border-bottom text-muted mb-3 mx-auto rounded-circle" style="width: 80px; height: 80px;">
+                                <i class="bi bi-shield-plus fs-1 text-primary"></i>
+                            </div>
+                            
+                            <div class="mt-2 mb-3 flex-grow-1">
+                                <h6 class="fw-bold mb-0" style="color: var(--text);">{{ vaccine.name }}</h6>
+                                <small class="text-muted">{{ vaccine.manufacturer }}</small>
+                            </div>
+                            <i class="bi bi-chevron-down text-muted fs-5"></i>
+                        </div>
+
+                        <div class="collapse mx-4" id="vaccine-collapse-{{ vaccine.id }}">
+                            <hr class="my-2 text-muted">
+                            
+                            <div class="mt-3 mb-3 text-start">
+                                <p class="small text-muted mb-2" style="line-height: 1.4;">
+                                    {{ vaccine.description }}
+                                </p>
+                                <div class="badge bg-light text-dark border w-100 py-2 text-start">
+                                    <i class="bi bi-clock-history me-1"></i> Proteção: {{ vaccine.years_prevention }} ano(s)
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2 mb-4 justify-content-center">
+                                <button type="button" class="btn botao-filtro" data-bs-toggle="modal" data-bs-target="#modal-editar-vacina-{{ vaccine.id }}">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </button>
+
+                                <form method="POST" action="{% url 'vaccines:delete_vaccine' vaccine.id %}" class="flex-grow-1" onsubmit="return confirm('Tem certeza que deseja excluir esta vacina?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn botao-filtro" style="background: #dc3545 !important;">
+                                        <i class="bi bi-trash"></i> Excluir
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade text-start" id="modal-editar-vacina-{{ vaccine.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" style="color: var(--text);">Editar: {{ vaccine.name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                
+                                <form method="POST" action="{% url 'vaccines:edit_vaccine' vaccine.id %}">
+                                    {% csrf_token %}
+                                    
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-medium small">Nome da Vacina</label>
+                                            <input type="text" name="name" class="form-control form-control-sm" value="{{ vaccine.name }}" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label fw-medium small">Fabricante</label>
+                                            <input type="text" name="manufacturer" class="form-control form-control-sm" value="{{ vaccine.manufacturer }}" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label fw-medium small">Descrição</label>
+                                            <textarea name="description" class="form-control form-control-sm" rows="3">{{ vaccine.description }}</textarea>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label fw-medium small">Anos de Proteção</label>
+                                            <input type="number" step="any" name="years_prevention" class="form-control form-control-sm" value="{{ vaccine.years_prevention|stringformat:'s' }}" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal-footer border-top-0 pt-0">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn botao-filtro">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% empty %}
+                    <div class="w-100 text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        Nenhuma vacina cadastrada no sistema.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="border rounded-3 bg-white shadow-sm mb-4 overflow-hidden">
+                <div class="d-flex justify-content-between align-items-center p-3" 
+                        style="cursor: pointer;" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#formNovaVacina">
+                    <span class="fw-bold fs-6" style="color: var(--text);">
+                        <i class="bi bi-plus-circle-fill me-2" style="color: var(--primary);"></i> 
+                        Cadastrar Nova Vacina
+                    </span>
+                    <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                
+                <div class="collapse" id="formNovaVacina">
+                    <div class="p-4">
+                        <form action="{% url 'vaccines:add_vaccine' %}" method="POST">
+                            {% csrf_token %}
+                            
+                            <div class="form-django row">
+                                {{ form_vaccines.as_p }}
+                            </div>
+                            
+                            <div class="text-end mt-4 pt-3 border-top">
+                                <button type="submit" class="btn botao-filtro px-4 py-2 fw-bold">Salvar Vacina</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+
+
+{% endblock body %}

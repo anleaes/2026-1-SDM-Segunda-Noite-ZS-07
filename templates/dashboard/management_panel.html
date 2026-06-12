@@ -234,6 +234,16 @@
             </div>
 
             <div class="border rounded-3 bg-white shadow-sm mb-4 overflow-hidden">
+                <a class=" text-decoration-none d-flex justify-content-between align-items-center p-3" style="cursor: pointer;" href="{% url "vaccines:list_vaccines" "management" %}">
+                    <span class="fw-bold fs-6" style="color: var(--text);">
+                        <i class="bi bi-shield-fill-check me-2" style="color: var(--primary);"></i> 
+                        Gerenciar Vacinas
+                    </span>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                </a>
+            </div>
+          
+            <div class="border rounded-3 bg-white shadow-sm mb-4 overflow-hidden">
                 <a class=" text-decoration-none d-flex justify-content-between align-items-center p-3" style="cursor: pointer;" href="{% url "breeds:add_breed" %}">
                     <span class="fw-bold fs-6" style="color: var(--text);">
                         <i class="bi bi-plus-circle-fill me-2" style="color: var(--primary);"></i> 

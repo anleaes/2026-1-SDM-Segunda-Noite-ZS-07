@@ -42,8 +42,12 @@
                         {% else %}
                             <div class="foto-animal">Sem Foto</div>
                         {% endif %}
+                        <div style="background-color: #edbead;">
+                                <h5>{{animal.name}}</h5>
+                        </div>
                         <div class="sobre-animal">
-                            <div>
+                            
+                            <div>                                
                                 {{animal.breed}}
                                 <span>·</span>
                                 {% if animal.sex == "M" %}

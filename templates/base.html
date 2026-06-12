@@ -12,7 +12,7 @@
     {% block extra_css %}
     {% endblock extra_css %}
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-md navbar-dark py-3 container">
             
@@ -94,10 +94,11 @@
         {% endfor %}
     </div>
     {% endif %}
-
-    {% block body %}
     
-    {% endblock body %}
+    <main class="flex-grow-1">
+        {% block body %}
+        {% endblock body %}
+    </main>
 
     <footer class="mt-5 py-4">
         <div class="container d-flex flex-column flex-md-row justify-content-center align-items-center text-light gap-2 gap-md-0 text-center">
