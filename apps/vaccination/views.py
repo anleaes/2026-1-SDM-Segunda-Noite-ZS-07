@@ -10,7 +10,7 @@ from .forms import VaccinationsForm
 from animals.models import Animal 
 from vaccines.models import Vaccine
 
-# Create your views here.
+# Create your views here. teste
 
 class VaccinationViewSet(viewsets.ModelViewSet):
     queryset = Vaccination.objects.all()
