@@ -54,11 +54,13 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a class="dropdown-item py-2" href="{% url 'adoptions:my_requests' %}">
-                                Minhas Solicitações
-                            </a>
-                        </li>
+                        {% if not user.is_staff and not user.is_superuser %}
+                            <li>
+                                <a class="dropdown-item py-2" href="{% url 'adoptions:my_requests' %}">
+                                    Minhas Solicitações
+                                </a>
+                            </li>
+                            {% endif %}
 
                         {% if user.is_staff or user.is_superuser %}
                         <li>
